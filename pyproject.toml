@@ -12,6 +12,12 @@ dependencies = [
     "httpx",
 ]
 
+[project.optional-dependencies]
+ingest = [
+    "openpyxl",
+    "pdfplumber",
+]
+
 [project.scripts]
 digikey-mcp = "digikey_mcp.server:main"
 
