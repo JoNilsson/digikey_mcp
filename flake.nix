@@ -14,8 +14,6 @@
       python = pkgs.python3;
 
       # Runtime dependencies, mirroring [project].dependencies in pyproject.toml.
-      # Add new entries here (e.g. ps.openpyxl, ps.pdfplumber, ps.pypdf) when
-      # pyproject.toml gains them.
       runtimeDeps = ps: [
         ps.fastmcp
         ps.httpx
@@ -23,14 +21,28 @@
 
       # Optional dependency groups, mirroring [project.optional-dependencies].
       # Each group is built into the package as `optional-dependencies` and can
-      # be pulled in with `withOptional [ "ingest" ]`. Empty until pyproject
-      # declares them; an example for the planned BOM ingest:
-      #   ingest = ps: [ ps.openpyxl ps.pdfplumber ps.pypdf ];
-      optionalDeps = { };
+      # be pulled in with `withOptional [ "ingest" ]`.
+      optionalDeps = {
+        ingest = ps: [
+          ps.openpyxl
+          ps.pdfplumber
+        ];
+      };
 
-      testDeps = ps: [ ps.pytest ];
+      # Groups included in packages.default, the dev shell and the HM module.
+      defaultGroups = [ "ingest" ];
 
-      digikey-mcp = python.pkgs.buildPythonApplication {
+      allOptionalDeps =
+        ps: builtins.concatLists (builtins.attrValues (builtins.mapAttrs (_: f: f ps) optionalDeps));
+
+      # pypdf only writes a PDF fixture in tests/ingest (importorskip).
+      testDeps = ps: [
+        ps.pytest
+        ps.pypdf
+      ];
+
+      # Core package without optional groups.
+      digikey-mcp-core = python.pkgs.buildPythonApplication {
         pname = "digikey-mcp";
         version = (builtins.fromTOML (builtins.readFile ./pyproject.toml)).project.version;
         pyproject = true;
@@ -40,11 +52,14 @@
         dependencies = runtimeDeps python.pkgs;
         optional-dependencies = builtins.mapAttrs (_: f: f python.pkgs) optionalDeps;
 
-        # Tests are offline (httpx MockTransport, in-process FastMCP client).
-        nativeCheckInputs = testDeps python.pkgs;
+        # Tests are offline (httpx MockTransport, in-process FastMCP client,
+        # local fixtures); `tests` recurses into tests/ingest and tests/cart.
+        # The optional groups are check inputs so tests/ingest
+        # runs in full even for the core package.
+        nativeCheckInputs = testDeps python.pkgs ++ allOptionalDeps python.pkgs;
         checkPhase = ''
           runHook preCheck
-          pytest -q tests
+          pytest -q -p no:cacheprovider tests
           runHook postCheck
         '';
         pythonImportsCheck = [ "digikey_mcp" ];
@@ -58,17 +73,14 @@
       # Package with selected optional groups added to the runtime closure.
       withOptional =
         groups:
-        digikey-mcp.overridePythonAttrs (old: {
+        digikey-mcp-core.overridePythonAttrs (old: {
           dependencies =
             old.dependencies ++ builtins.concatMap (g: old.optional-dependencies.${g}) groups;
         });
 
-      devPython = python.withPackages (
-        ps:
-        runtimeDeps ps
-        ++ builtins.concatLists (builtins.attrValues (builtins.mapAttrs (_: f: f ps) optionalDeps))
-        ++ testDeps ps
-      );
+      digikey-mcp = withOptional defaultGroups;
+
+      devPython = python.withPackages (ps: runtimeDeps ps ++ allOptionalDeps ps ++ testDeps ps);
 
       # Home Manager module: registers the server for Claude Code. Credentials
       # stay outside the store; only their file paths are passed, through
@@ -101,7 +113,7 @@
               type = lib.types.package;
               default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
               defaultText = lib.literalExpression "digikey-mcp.packages.\${system}.default";
-              description = "digikey-mcp package; use lib.\${system}.withOptional for extra groups.";
+              description = "digikey-mcp package (core plus the ingest group); use lib.\${system}.withOptional to choose groups.";
             };
             # Strings, not paths: a path literal would be copied into the store.
             clientIdFile = lib.mkOption {
@@ -148,7 +160,7 @@
     {
       packages.${system} = {
         default = digikey-mcp;
-        inherit digikey-mcp;
+        inherit digikey-mcp digikey-mcp-core;
       };
 
       lib.${system}.withOptional = withOptional;
