@@ -17,6 +17,7 @@ from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
 
 from . import trim
+from .cart import register as register_cart
 from .client import DigiKeyClient, DigiKeyError
 
 logger = logging.getLogger(__name__)
@@ -304,6 +305,9 @@ def get_category_by_id(category_id: int) -> dict:
         category_id: Category id.
     """
     return get_client().category_by_id(category_id)
+
+
+register_cart(mcp)
 
 
 def main() -> None:
