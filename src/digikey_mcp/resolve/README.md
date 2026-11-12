@@ -161,7 +161,7 @@ static_ttl_days = 1
 thorough = false
 ```
 
-Reading the file needs Python 3.11 (`tomllib`) or the `tomli` package.
+Reading the file uses `tomllib` (Python 3.11 or newer).
 
 ## Output
 

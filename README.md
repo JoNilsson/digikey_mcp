@@ -173,8 +173,8 @@ wait is short, and otherwise stops with `complete: false` and a resume message;
 `resolve_bom` with the same `session_id` continues where it stopped. A 403 or
 429 from DigiKey holds all calls off for 10 minutes.
 
-Trimmed responses are cached for 24 hours, price and stock endpoints for 6
-hours. Cache and sessions live under `$XDG_CACHE_HOME/digikey-mcp` (default
+Trimmed responses are cached for 6 hours for price and stock endpoints and
+1 day for static data. Cache and sessions live under `$XDG_CACHE_HOME/digikey-mcp` (default
 `~/.cache/digikey-mcp`): `cache.sqlite3` and `sessions/<id>.json`.
 
 ## Preferences

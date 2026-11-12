@@ -87,3 +87,5 @@ logs/
 
 # UV
 .uv/ 
+# Cleanup holding area
+.trash/
