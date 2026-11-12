@@ -110,7 +110,7 @@ preferences and is saved after every line.
 ## Cache and quota
 
 `cache.sqlite3` in the same directory caches trimmed API responses keyed by
-endpoint and arguments: 6 hours for price and stock bearing endpoints, 7 days
+endpoint and arguments: 6 hours for price and stock bearing endpoints, 1 day
 for `alternatepackaging`. Unknown parts (404) are cached as well. Expired
 entries are deleted at the start of every run.
 
