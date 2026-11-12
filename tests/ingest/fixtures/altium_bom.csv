@@ -1,0 +1,10 @@
+Source Data From:,board.PrjPcb
+Project:,board.PrjPcb
+Variant:,No Variations
+Report Generated From Altium Designer,
+
+"Comment","Description","Designator","Footprint","LibRef","Quantity","Manufacturer 1","Manufacturer Part Number 1","Supplier 1","Supplier Part Number 1"
+"100nF","Capacitor, ceramic","C1, C2, C3","C0603","CAP_0603","3","Samsung","CL10B104KB8NNNC","Digi-Key","1276-1000-1-ND"
+"10K 1%","Resistor, thick film","R1, R2","R0603","RES_0603","2","Yageo","RC0603FR-0710KL","Digi-Key","311-10.0KHRCT-ND"
+"USB-C","Receptacle, USB Type-C","J1","USB_C_HRO","CONN_USBC","1","Hirose","","Mouser","798-USB4105GFA"
+"LM358","Dual op amp","U1","SOIC8","LM358","1","Texas Instruments","LM358DR","Digi-Key",""
