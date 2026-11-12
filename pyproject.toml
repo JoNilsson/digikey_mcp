@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "digikey-mcp"
 version = "0.2.0"
 description = "DigiKey Product Search client and MCP server"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "fastmcp",
     "httpx",
