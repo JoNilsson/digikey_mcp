@@ -74,7 +74,7 @@ class Preferences:
     #: stop a resolution run after this many seconds and report it as resumable
     time_budget_seconds: float = 240.0
     price_ttl_hours: float = 6.0
-    static_ttl_days: float = 7.0
+    static_ttl_days: float = 1.0
     #: also call pricingbyquantity, packagetypebyquantity and alternatepackaging for every line
     thorough: bool = False
     #: the TOML mapping this was built from (stored in sessions)

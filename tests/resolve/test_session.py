@@ -190,7 +190,7 @@ def test_static_data_outlives_price_data(loaded, env, clock):
         gw = Gateway(loaded, store, Preferences(), clock=clock, sleep=clock.sleep)
         gw.alternate_packaging("X-ND")
         gw.substitutions("X-ND")
-        clock.now += 24 * 3600
+        clock.now += 12 * 3600
         gw.alternate_packaging("X-ND")
         gw.substitutions("X-ND")
     assert loaded.names().count("alternate_packaging") == 1

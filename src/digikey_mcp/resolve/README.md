@@ -155,7 +155,7 @@ time_budget_seconds = 240
 
 [cache]
 price_ttl_hours = 6
-static_ttl_days = 7
+static_ttl_days = 1
 
 [api]
 thorough = false
