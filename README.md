@@ -1,12 +1,15 @@
 # DigiKey MCP server
 
-An MCP server (FastMCP, stdio) that turns a bill of materials into exact
-DigiKey part numbers and order quantities and builds links that fill a DigiKey
-cart. It never submits an order: the user opens the links in a signed-in
-browser, reviews the cart, picks the payment method and clicks buy.
+An MCP server (FastMCP, stdio) and a command line that turn a bill of
+materials into exact DigiKey part numbers and order quantities and build links
+that fill a DigiKey cart. Nothing is ever submitted as an order: the user opens
+the links in a signed-in browser, reviews the cart, picks the payment method
+and clicks buy.
 
 The server also exposes the DigiKey Product Information v4 endpoints as
-individual search and pricing tools.
+individual search and pricing tools. The command line (`digikey-mcp`) runs the
+whole BOM-to-cart workflow from a terminal and calls the same functions as the
+MCP tools.
 
 For a step-by-step setup without Nix see [GETTING_STARTED.md](GETTING_STARTED.md).
 
@@ -43,6 +46,50 @@ Detail on the ingest and resolver stages is in
 [src/digikey_mcp/ingest/README.md](src/digikey_mcp/ingest/README.md) and
 [src/digikey_mcp/resolve/README.md](src/digikey_mcp/resolve/README.md).
 
+## Command line
+
+`digikey-mcp` with no arguments prints a welcome screen when it runs in a
+terminal and starts the MCP server when stdin is piped, so MCP client
+registrations that pass no arguments keep working. `digikey-mcp --help`,
+`digikey-mcp help` and `python -m digikey_mcp` show the same overview;
+`digikey-mcp COMMAND --help` documents one command with worked examples.
+
+| Command | Purpose |
+| --- | --- |
+| `ingest` | Parse a BOM file; show column mapping, unparsed rows, warnings. |
+| `resolve` | Resolve a BOM (file, `-` or `--text`) to DigiKey part numbers. |
+| `decide` | Answer lines: `LINE=PN`, `LINE=skip` or `--interactive`. |
+| `report` | Write a session as markdown, CSV or JSON. |
+| `cart` | Build FastAdd URLs, HTML forms or Quick Order text. |
+| `search` | Keyword search, trimmed (`--limit`, `--in-stock`). |
+| `part` | One product by DigiKey part number or MPN (`--raw`). |
+| `quota` | DigiKey calls used and left this minute and UTC day. |
+| `sessions` | Saved sessions with status counts. |
+| `serve` | Start the MCP server on stdio (`--sandbox`). |
+| `version`, `welcome`, `help` | Version, overview, help for one command. |
+
+Global flags, accepted before or after the command: `--version`,
+`--cache-dir DIR`, `-q/--quiet`, `--no-color`. Colour is used only when stdout
+is a terminal and `NO_COLOR` is unset. Commands that print results take
+`--json` (`report` takes `--format json`) and then write only JSON to stdout;
+progress, hints and the cart notice go to stderr.
+
+A typical run:
+
+```bash
+digikey-mcp ingest bom.csv                      # check how the BOM parses
+digikey-mcp resolve bom.csv --boards 2          # prints the session id
+digikey-mcp decide SESSION --interactive        # answer generic lines
+digikey-mcp report SESSION --out bom.md
+digikey-mcp cart SESSION                        # links for your own signed-in cart
+```
+
+Exit codes: 0 success; 1 runtime error; 2 usage error; 3 `resolve` or `decide`
+ended with lines that still block the order, or the DigiKey quota ran out. In
+the second case the session id and the resume command
+(`digikey-mcp resolve --session SESSION`) are printed. Errors are one line plus
+a hint on stderr.
+
 ## Setup
 
 1. Create an account and organisation at <https://developer.digikey.com>.
@@ -74,7 +121,8 @@ Credentials are read on the first DigiKey call, so the server starts and
 nix develop                  # dev shell: Python with all dependencies, ruff, pyright
 pytest -q tests              # offline test suite
 nix build .#default          # package with the ingest group; binary at result/bin/digikey-mcp
-nix run .                    # run the server on stdio
+nix run .                    # welcome screen
+nix run . -- serve           # run the server on stdio
 ```
 
 Home Manager module (`homeManagerModules.default`), which installs the
@@ -103,7 +151,7 @@ Python 3.11 or newer is required.
 uv sync --extra ingest       # or: pip install -e ".[ingest]"
 CLIENT_ID_FILE=~/.config/digikey/client_id \
 CLIENT_SECRET_FILE=~/.config/digikey/client_secret \
-uv run digikey-mcp           # or: python -m digikey_mcp.server
+uv run digikey-mcp serve     # or: python -m digikey_mcp.server
 ```
 
 The `ingest` extra adds `openpyxl` (`.xlsx`) and `pdfplumber` (PDF). Without
@@ -119,6 +167,7 @@ A project `.mcp.json` entry for a non-Nix install:
     "digikey": {
       "type": "stdio",
       "command": "digikey-mcp",
+      "args": ["serve"],
       "env": {
         "CLIENT_ID_FILE": "/home/you/.config/digikey/client_id",
         "CLIENT_SECRET_FILE": "/home/you/.config/digikey/client_secret"
@@ -174,8 +223,10 @@ wait is short, and otherwise stops with `complete: false` and a resume message;
 429 from DigiKey holds all calls off for 10 minutes.
 
 Trimmed responses are cached for 6 hours for price and stock endpoints and
-1 day for static data. Cache and sessions live under `$XDG_CACHE_HOME/digikey-mcp` (default
-`~/.cache/digikey-mcp`): `cache.sqlite3` and `sessions/<id>.json`.
+1 day for static data. Cache and sessions live under
+`$XDG_CACHE_HOME/digikey-mcp` (default `~/.cache/digikey-mcp`): `cache.sqlite3`
+and `sessions/<id>.json`. The command line's `--cache-dir` points them
+elsewhere.
 
 ## Preferences
 
