@@ -89,3 +89,8 @@ logs/
 .uv/ 
 # Cleanup holding area
 .trash/
+
+# Nix and direnv
+result
+result-*
+.direnv/
