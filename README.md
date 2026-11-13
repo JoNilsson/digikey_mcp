@@ -109,6 +109,8 @@ a hint on stderr.
 - `DIGIKEY_LOCALE_SITE`, `DIGIKEY_LOCALE_LANGUAGE`,
   `DIGIKEY_LOCALE_CURRENCY`: optional locale headers.
 - `DIGIKEY_CUSTOMER_ID`: optional customer ID for account pricing.
+- `DIGIKEY_MCP_DEBUG`: set to `1` to print the traceback when a command line
+  run fails with a runtime error.
 
 Credentials are read on the first DigiKey call, so the server starts and
 `cart_links` works without them.
