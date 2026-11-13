@@ -19,7 +19,7 @@ ingest = [
 ]
 
 [project.scripts]
-digikey-mcp = "digikey_mcp.server:main"
+digikey-mcp = "digikey_mcp.cli:main"
 
 [dependency-groups]
 dev = ["pytest"]
