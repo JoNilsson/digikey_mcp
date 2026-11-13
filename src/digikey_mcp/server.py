@@ -23,7 +23,27 @@ from .client import DigiKeyClient, DigiKeyError
 
 logger = logging.getLogger(__name__)
 
-mcp = FastMCP("DigiKey MCP Server")
+INSTRUCTIONS = """\
+DigiKey purchasing helper: turns a BOM into exact DigiKey part numbers, order
+quantities and cart links. It never submits an order; the user finishes in
+their own signed-in DigiKey cart, picks payment and clicks buy.
+
+Workflow: resolve_bom (BOM file or text, boards=N) -> review statuses ->
+apply_decisions -> bom_report -> cart_links.
+
+Rules:
+- Lines with no MPN (generic parts) are never auto-picked: show the ranked
+  candidates to the user and let them choose via apply_decisions.
+- Never substitute a part silently. Present substitutes with their confidence
+  and wait for the user's choice.
+- Lines that are ambiguous, unavailable or still need a decision block the
+  cart; list them and ask rather than dropping them.
+- Quota is 120 requests/min and 1000/day. Check quota_status before large
+  BOMs; a quota-limited run is resumable with its session_id.
+- Search tools return trimmed data; pass raw=True only when a field is missing.
+"""
+
+mcp = FastMCP("DigiKey MCP Server", instructions=INSTRUCTIONS)
 
 _client: DigiKeyClient | None = None
 _client_lock = threading.Lock()
