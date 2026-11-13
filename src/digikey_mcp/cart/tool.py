@@ -35,6 +35,7 @@ def cart_links(
     items: list[dict[str, Any]],
     output: Literal["urls", "html", "text"] = "urls",
     write_html_to: str | None = None,
+    newcart: bool = True,
 ) -> dict[str, Any]:
     """Build links that put a resolved BOM into the user's DigiKey cart.
 
@@ -51,6 +52,8 @@ def cart_links(
             Quick Order box (importer format unconfirmed).
         write_html_to: With output="html", write the page to this .html path
             instead of returning it. The directory must already exist.
+        newcart: True (default) makes the first link or form empty the DigiKey cart;
+            False adds to the cart that is already open.
     """
     if output not in ("urls", "html", "text"):
         raise CartInputError("output must be 'urls', 'html' or 'text'")
@@ -58,7 +61,7 @@ def cart_links(
         raise CartInputError("write_html_to only applies to output='html'")
     line_count = len(normalize_lines(items))
     if output == "urls":
-        chunks = build_fastadd_urls(items)
+        chunks = build_fastadd_urls(items, newcart=newcart)
         return {
             "output": "urls",
             "line_count": line_count,
@@ -66,7 +69,7 @@ def cart_links(
             "urls": [c.as_dict() for c in chunks],
         }
     if output == "html":
-        page = build_fastadd_form_html(items)
+        page = build_fastadd_form_html(items, newcart=newcart)
         result: dict[str, Any] = {
             "output": "html",
             "line_count": line_count,
