@@ -1,5 +1,3 @@
-test_client.py
-
 # Environment variables
 .env
 .env.local
@@ -89,3 +87,10 @@ logs/
 
 # UV
 .uv/ 
+# Cleanup holding area
+.trash/
+
+# Nix and direnv
+result
+result-*
+.direnv/

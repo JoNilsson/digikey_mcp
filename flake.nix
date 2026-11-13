@@ -1,0 +1,220 @@
+{
+  description = "DigiKey Product Search client and MCP server";
+
+  # flake.lock pins the same nixpkgs revision as cybernix. Unstable from
+  # 2026-11 ships mcp 2.x, which marks fastmcp(-slim) broken; check
+  # `nix eval .#packages.x86_64-linux.default.drvPath` after any update.
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+  outputs =
+    { self, nixpkgs }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+      inherit (nixpkgs) lib;
+      python = pkgs.python3;
+
+      # Runtime dependencies, mirroring [project].dependencies in pyproject.toml.
+      runtimeDeps = ps: [
+        ps.fastmcp
+        ps.httpx
+      ];
+
+      # Optional dependency groups, mirroring [project.optional-dependencies].
+      # Each group is built into the package as `optional-dependencies` and can
+      # be pulled in with `withOptional [ "ingest" ]`.
+      optionalDeps = {
+        ingest = ps: [
+          ps.openpyxl
+          ps.pdfplumber
+        ];
+      };
+
+      # Groups included in packages.default, the dev shell and the HM module.
+      defaultGroups = [ "ingest" ];
+
+      allOptionalDeps =
+        ps: builtins.concatLists (builtins.attrValues (builtins.mapAttrs (_: f: f ps) optionalDeps));
+
+      # pypdf only writes a PDF fixture in tests/ingest (importorskip).
+      testDeps = ps: [
+        ps.pytest
+        ps.pypdf
+      ];
+
+      # Core package without optional groups.
+      digikey-mcp-core = python.pkgs.buildPythonApplication {
+        pname = "digikey-mcp";
+        version = (builtins.fromTOML (builtins.readFile ./pyproject.toml)).project.version;
+        pyproject = true;
+        src = self;
+
+        build-system = [ python.pkgs.hatchling ];
+        dependencies = runtimeDeps python.pkgs;
+        optional-dependencies = builtins.mapAttrs (_: f: f python.pkgs) optionalDeps;
+
+        # Tests are offline (httpx MockTransport, in-process FastMCP client,
+        # local fixtures); `tests` recurses into tests/ingest and tests/cart.
+        # The optional groups are check inputs so tests/ingest
+        # runs in full even for the core package.
+        nativeCheckInputs = testDeps python.pkgs ++ allOptionalDeps python.pkgs;
+        checkPhase = ''
+          runHook preCheck
+          pytest -q -p no:cacheprovider tests
+          runHook postCheck
+        '';
+        pythonImportsCheck = [ "digikey_mcp" ];
+
+        meta = {
+          description = "DigiKey Product Search client and MCP server";
+          mainProgram = "digikey-mcp";
+        };
+      };
+
+      # Package with selected optional groups added to the runtime closure.
+      withOptional =
+        groups:
+        digikey-mcp-core.overridePythonAttrs (old: {
+          dependencies =
+            old.dependencies ++ builtins.concatMap (g: old.optional-dependencies.${g}) groups;
+        });
+
+      digikey-mcp = withOptional defaultGroups;
+
+      devPython = python.withPackages (ps: runtimeDeps ps ++ allOptionalDeps ps ++ testDeps ps);
+
+      # Dev-shell `digikey-mcp`: runs the working tree (PYTHONPATH set by the
+      # shellHook) with the dev interpreter, so no install is needed.
+      devCli = pkgs.writeShellScriptBin "digikey-mcp" ''
+        exec ${devPython}/bin/python -m digikey_mcp "$@"
+      '';
+
+      # `nix run .#serve`: apps take no arguments, so wrap the subcommand.
+      serveApp = pkgs.writeShellScript "digikey-mcp-serve" ''
+        exec ${lib.getExe digikey-mcp} serve "$@"
+      '';
+
+      # Home Manager module: registers the server for Claude Code. Credentials
+      # stay outside the store; only their file paths are passed, through
+      # CLIENT_ID_FILE / CLIENT_SECRET_FILE read by client.load_credentials.
+      homeModule =
+        {
+          config,
+          lib,
+          options,
+          pkgs,
+          ...
+        }:
+        let
+          cfg = config.services.digikey-mcp;
+          server = {
+            type = "stdio";
+            # Bare command name, resolved through home.packages on PATH: MCP
+            # allowlists match the exact array [ "digikey-mcp" "serve" ].
+            command = "digikey-mcp";
+            args = [ "serve" ];
+            env = {
+              CLIENT_ID_FILE = cfg.clientIdFile;
+              CLIENT_SECRET_FILE = cfg.clientSecretFile;
+            }
+            // lib.optionalAttrs cfg.sandbox { DIGIKEY_SANDBOX = "true"; };
+          };
+        in
+        {
+          options.services.digikey-mcp = {
+            enable = lib.mkEnableOption "the DigiKey MCP server for Claude Code";
+            package = lib.mkOption {
+              type = lib.types.package;
+              default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
+              defaultText = lib.literalExpression "digikey-mcp.packages.\${system}.default";
+              description = "digikey-mcp package (core plus the ingest group); use lib.\${system}.withOptional to choose groups.";
+            };
+            # Strings, not paths: a path literal would be copied into the store.
+            clientIdFile = lib.mkOption {
+              type = lib.types.str;
+              example = "/run/secrets/digikey/client_id";
+              description = "File holding the DigiKey OAuth client id (sops-nix, agenix, ...).";
+            };
+            clientSecretFile = lib.mkOption {
+              type = lib.types.str;
+              example = "/run/secrets/digikey/client_secret";
+              description = "File holding the DigiKey OAuth client secret.";
+            };
+            sandbox = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = "Use the DigiKey sandbox API (sets DIGIKEY_SANDBOX=true).";
+            };
+            serverName = lib.mkOption {
+              type = lib.types.str;
+              default = "digikey";
+              description = "Name of the MCP server entry in Claude Code.";
+            };
+          };
+
+          config = lib.mkIf cfg.enable (
+            lib.mkMerge [
+              {
+                home.packages = [ cfg.package ];
+                # Standalone config for `claude --mcp-config <file>` or for
+                # merging into a managed MCP config.
+                xdg.configFile."digikey-mcp/mcp.json".text = builtins.toJSON {
+                  mcpServers.${cfg.serverName} = server;
+                };
+              }
+              # Home Manager's own Claude Code module, when present, picks the
+              # server up directly.
+              (lib.optionalAttrs (options ? programs.claude-code.mcpServers) {
+                programs.claude-code.mcpServers.${cfg.serverName} = server;
+              })
+            ]
+          );
+        };
+    in
+    {
+      packages.${system} = {
+        default = digikey-mcp;
+        inherit digikey-mcp digikey-mcp-core;
+      };
+
+      lib.${system}.withOptional = withOptional;
+
+      apps.${system} = {
+        # Welcome screen on a terminal, MCP server on piped stdin.
+        default = {
+          type = "app";
+          program = lib.getExe digikey-mcp;
+          meta.description = "DigiKey command line (welcome screen on a terminal)";
+        };
+        serve = {
+          type = "app";
+          program = "${serveApp}";
+          meta.description = "Run the DigiKey MCP server on stdio";
+        };
+      };
+
+      devShells.${system}.default = pkgs.mkShell {
+        packages = [
+          devPython
+          devCli
+          pkgs.ruff
+          pkgs.pyright
+        ];
+        # Import the package from the working tree without an editable install;
+        # the git top level keeps it right when entered from a subdirectory.
+        # The welcome prints only in an interactive shell on a terminal: not
+        # under `nix develop --command`, direnv or DIGIKEY_MCP_QUIET.
+        shellHook = ''
+          _dk_root="$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")"
+          export PYTHONPATH="$_dk_root/src''${PYTHONPATH:+:$PYTHONPATH}"
+          unset _dk_root
+          if [[ $- == *i* && -t 0 && -t 1 && -z "''${DIGIKEY_MCP_QUIET:-}" ]]; then
+            digikey-mcp welcome || true
+            echo "Help: digikey-mcp --help, digikey-mcp <command> --help"
+          fi
+        '';
+      };
+
+      homeManagerModules.default = homeModule;
+    };
+}

@@ -1,10 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "digikey-mcp"
-version = "0.1.0"
-description = "DigiKey MCP Server for product search"
+version = "0.2.0"
+description = "DigiKey Product Search client and MCP server"
+requires-python = ">=3.11"
 dependencies = [
     "fastmcp",
-    "requests",
-    "python-dotenv",
+    "httpx",
 ]
-requires-python = ">=3.10" 
+
+[project.optional-dependencies]
+ingest = [
+    "openpyxl",
+    "pdfplumber",
+]
+
+[project.scripts]
+digikey-mcp = "digikey_mcp.cli:main"
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/digikey_mcp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
