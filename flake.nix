@@ -11,6 +11,7 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      inherit (nixpkgs) lib;
       python = pkgs.python3;
 
       # Runtime dependencies, mirroring [project].dependencies in pyproject.toml.
@@ -82,6 +83,17 @@
 
       devPython = python.withPackages (ps: runtimeDeps ps ++ allOptionalDeps ps ++ testDeps ps);
 
+      # Dev-shell `digikey-mcp`: runs the working tree (PYTHONPATH set by the
+      # shellHook) with the dev interpreter, so no install is needed.
+      devCli = pkgs.writeShellScriptBin "digikey-mcp" ''
+        exec ${devPython}/bin/python -m digikey_mcp "$@"
+      '';
+
+      # `nix run .#serve`: apps take no arguments, so wrap the subcommand.
+      serveApp = pkgs.writeShellScript "digikey-mcp-serve" ''
+        exec ${lib.getExe digikey-mcp} serve "$@"
+      '';
+
       # Home Manager module: registers the server for Claude Code. Credentials
       # stay outside the store; only their file paths are passed, through
       # CLIENT_ID_FILE / CLIENT_SECRET_FILE read by client.load_credentials.
@@ -97,8 +109,10 @@
           cfg = config.services.digikey-mcp;
           server = {
             type = "stdio";
-            command = lib.getExe cfg.package;
-            args = [ ];
+            # Bare command name, resolved through home.packages on PATH: MCP
+            # allowlists match the exact array [ "digikey-mcp" "serve" ].
+            command = "digikey-mcp";
+            args = [ "serve" ];
             env = {
               CLIENT_ID_FILE = cfg.clientIdFile;
               CLIENT_SECRET_FILE = cfg.clientSecretFile;
@@ -165,21 +179,39 @@
 
       lib.${system}.withOptional = withOptional;
 
-      apps.${system}.default = {
-        type = "app";
-        program = "${digikey-mcp}/bin/digikey-mcp";
-        meta.description = "Run the DigiKey MCP server on stdio";
+      apps.${system} = {
+        # Welcome screen on a terminal, MCP server on piped stdin.
+        default = {
+          type = "app";
+          program = lib.getExe digikey-mcp;
+          meta.description = "DigiKey command line (welcome screen on a terminal)";
+        };
+        serve = {
+          type = "app";
+          program = "${serveApp}";
+          meta.description = "Run the DigiKey MCP server on stdio";
+        };
       };
 
       devShells.${system}.default = pkgs.mkShell {
         packages = [
           devPython
+          devCli
           pkgs.ruff
           pkgs.pyright
         ];
-        # Import the package from the working tree without an editable install.
+        # Import the package from the working tree without an editable install;
+        # the git top level keeps it right when entered from a subdirectory.
+        # The welcome prints only in an interactive shell on a terminal: not
+        # under `nix develop --command`, direnv or DIGIKEY_MCP_QUIET.
         shellHook = ''
-          export PYTHONPATH="$PWD/src''${PYTHONPATH:+:$PYTHONPATH}"
+          _dk_root="$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")"
+          export PYTHONPATH="$_dk_root/src''${PYTHONPATH:+:$PYTHONPATH}"
+          unset _dk_root
+          if [[ $- == *i* && -t 0 && -t 1 && -z "''${DIGIKEY_MCP_QUIET:-}" ]]; then
+            digikey-mcp welcome || true
+            echo "Help: digikey-mcp --help, digikey-mcp <command> --help"
+          fi
         '';
       };
 
