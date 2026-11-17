@@ -130,8 +130,8 @@ a hint on stderr.
   run fails with a runtime error.
 
 Credentials are read on the first DigiKey call, so the server starts and
-`cart_links` works without them. The server writes one warning line to stderr
-at start when they are missing. `digikey-mcp doctor` reports which variables
+`cart_links` works without them. The start banner shows the credential state
+(see [Start banner](#start-banner)). `digikey-mcp doctor` reports which variables
 are set, whether the files exist and are non-empty, and sandbox or production
 mode, without printing a secret; `digikey-mcp doctor --online` also requests
 one token.
@@ -179,6 +179,20 @@ uv run digikey-mcp serve     # or: python -m digikey_mcp.server
 
 The `ingest` extra adds `openpyxl` (`.xlsx`) and `pdfplumber` (PDF). Without
 it CSV, XML and pasted text still work.
+
+### Start banner
+
+At start the server prints a block on stderr (stdout stays the MCP protocol):
+name and version, transport, the `claude mcp add` line for this executable
+with the configured credential paths (`/home/you/...` placeholders marked
+"replace" when unset), credential state (never the values), and production or
+sandbox with the API host. Run by hand in a terminal it adds a line saying it
+waits for an MCP client on stdin and serves nobody. It replaces FastMCP's own
+banner. `DIGIKEY_MCP_QUIET=1` or `-q` suppresses it; the one-line warning
+about missing credentials stays. Transport is stdio; `FASTMCP_TRANSPORT=http`
+or `sse` (FastMCP's own settings, with `FASTMCP_HOST`, `FASTMCP_PORT`) serves
+over HTTP instead, and the banner then shows the URL and the matching
+`claude mcp add --transport` line. The server has no flag of its own for it.
 
 ### Claude Code
 

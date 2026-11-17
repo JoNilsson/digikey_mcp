@@ -120,10 +120,10 @@ def test_startup_is_silent_when_credentials_resolve(monkeypatch, tmp_path, capsy
 def test_main_warns_but_still_serves(monkeypatch, capsys):
     _clear_credentials(monkeypatch)
     ran = []
-    monkeypatch.setattr(server.mcp, "run", lambda: ran.append(True))
+    monkeypatch.setattr(server.mcp, "run", lambda **kw: ran.append(kw))
     server.main()
-    assert ran == [True]
-    assert "credentials missing" in capsys.readouterr().err
+    assert ran == [{"show_banner": False}]
+    assert "missing: CLIENT_ID not set" in capsys.readouterr().err
 
 
 def test_instructions_point_to_doctor():

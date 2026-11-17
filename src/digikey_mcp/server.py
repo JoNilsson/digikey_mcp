@@ -17,7 +17,7 @@ from typing import Any
 from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
 
-from . import trim
+from . import banner, trim
 from .cart import register as register_cart
 from .resolve import register as register_resolve
 from .client import DigiKeyClient, DigiKeyError, check_credentials
@@ -353,9 +353,21 @@ def warn_if_credentials_missing() -> bool:
 
 
 def main() -> None:
-    warn_if_credentials_missing()
+    """Print our banner (or just the credential warning when DIGIKEY_MCP_QUIET is set) and serve.
+
+    The transport is FastMCP's own setting (stdio unless FASTMCP_TRANSPORT says otherwise).
+    """
+    import fastmcp
+
+    from .cli.common import package_version
+
+    settings = fastmcp.settings
+    if banner.quiet():
+        warn_if_credentials_missing()
+    else:
+        banner.print_banner(package_version(), settings.transport, settings.host, settings.port)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
-    mcp.run()
+    mcp.run(show_banner=False)
 
 
 if __name__ == "__main__":
