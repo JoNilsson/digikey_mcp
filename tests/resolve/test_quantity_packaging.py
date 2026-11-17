@@ -167,3 +167,52 @@ def test_thorough_mode_uses_all_pricing_endpoints(resolver, fake):
     resolver.prefs = Preferences.from_dict({"api": {"thorough": True}})
     resolve_resistor(resolver, fake, 100)
     assert {"pricing_by_quantity", "package_type_by_quantity"} <= set(fake.names())
+
+
+BOM_HEADER = "Reference,Qty,Value,MPN\n"
+
+
+def _spares(rows: str) -> dict[str, tuple[int, str]]:
+    """Ingest CSV rows and return {first reference: (overage, category)} under the default preferences."""
+    from digikey_mcp.ingest import ingest
+
+    result = ingest(BOM_HEADER + rows, fmt="csv")
+    return {
+        ln.refdes[0]: (needed_quantity(ln, 1, Preferences())[1], ln.category_hint) for ln in result.lines
+    }
+
+
+@pytest.mark.parametrize(
+    "reference, mpn",
+    [
+        ("D1608E", "AFX00005"),  # Arduino Opta expansion module
+        ("A0602", "ABX00123"),
+        ("OPTA", "AFX00004"),
+        ("K8AK1", "8AK1000"),
+        ("CS1 RCT1", "CS1234"),
+        ("DAT1", "DAT-1234"),
+    ],
+)
+def test_module_names_get_no_spares(reference, mpn):
+    qty = len(reference.split())
+    spares = _spares(f"{reference},{qty},,{mpn}\n")
+    assert spares[reference.split()[0]][0] == 0
+
+
+def test_module_name_with_a_diode_like_prefix_is_not_a_diode():
+    assert _spares("D1608E,1,,AFX00005\n")["D1608E"] == (0, "other")
+
+
+def test_real_designators_keep_their_overage():
+    spares = _spares("D1 D2,2,1N4148,\nR1,1,10k,\nC3,1,100nF,\n")
+    assert spares["D1"] == (1, "diode")
+    assert spares["R1"] == (2, "resistor")
+    assert spares["C3"] == (2, "capacitor")
+
+
+def test_passive_by_value_keeps_overage_with_a_part_number():
+    assert _spares("R1,1,10k,RC0603FR-0710KL\n")["R1"] == (2, "resistor")
+
+
+def test_prefix_alone_is_not_enough_when_a_part_number_is_given():
+    assert _spares("D5,1,,BAT54\n")["D5"] == (0, "other")
