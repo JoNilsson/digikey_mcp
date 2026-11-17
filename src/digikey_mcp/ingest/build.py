@@ -131,7 +131,7 @@ def build_line(
     elif refs and quantity != len(refs):
         notes.append(f"quantity {quantity} differs from {len(refs)} designators")
 
-    category = infer_category(refs, value_text, footprint, description)
+    category = infer_category(refs, value_text, footprint, description, bool(mpn or supplier_pn))
     info = normalise_value(value_text, category if category in _PASSIVES else None)
     if category == "other" and info.unit:
         category = {"ohm": "resistor", "F": "capacitor", "H": "inductor"}[info.unit]

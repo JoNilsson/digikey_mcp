@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from . import welcome
-from .commands import cart, decide, info, ingest, part, quota, report, resolve, search, serve, sessions
+from .commands import cart, decide, doctor, info, ingest, part, quota, report, resolve, search, serve, sessions
 from .common import (
     EXIT_OK,
     PROG,
@@ -36,6 +36,7 @@ REGISTRY: dict[str, Callable[[Any], argparse.ArgumentParser]] = {
     "quota": quota.register,
     "sessions": sessions.register,
     "serve": serve.register,
+    "doctor": doctor.register,
     "version": info.register_version,
     "welcome": info.register_welcome,
     "help": info.register_help,

@@ -273,3 +273,9 @@ def test_trim_pricing_response():
     (var,) = out["products"][0]["variations"]
     assert var["tariff_active"] is False and var["digireel_fee"] == 0
     assert var["price_breaks"][0]["quantity"] == 1
+
+
+def test_trim_keeps_the_child_category_path():
+    product = {"Category": {"CategoryId": 7, "Name": "Circuit Protection",
+                            "ChildCategories": [{"CategoryId": 8, "Name": "Fuses", "ChildCategories": []}]}}
+    assert trim.trim_product(product)["category"] == {"id": 7, "name": "Circuit Protection", "path": ["Fuses"]}

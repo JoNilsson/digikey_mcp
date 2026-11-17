@@ -210,3 +210,54 @@ def test_identity_key():
     b = make_line(line_id=4, refdes=("C9",), value="100 nF", footprint="c_0603", category_hint="capacitor")
     assert identity_key(a) == identity_key(b)
     assert identity_key(a) != identity_key(make_line(value="1uF", footprint="C_0603", category_hint="capacitor"))
+
+
+def _fuse(mpn="0287002.PXCN", category="Circuit Protection", children=("Fuses", "Automotive Fuses")):
+    return product(
+        mpn, "Littelfuse",
+        [variation("F2398-ND", "Bulk", breaks=((1, 0.5), (100, 0.3)))],
+        desc="FUSE BLADE 32VDC 2A ATO", category=category, children=children,
+    )
+
+
+def _led():
+    return product(
+        "LTST-C190KGKT", "Lite-On",
+        [variation("160-1435-1-ND", "Cut Tape (CT)", breaks=((1, 0.16),))],
+        desc="LED GREEN CLEAR 0603 SMD", category="Optoelectronics", children=("LED Indication - Discrete",),
+    )
+
+
+@pytest.mark.parametrize("hint, refs", [("fuse", ["FU1", "FU2"]), ("switch", ["S1"])])
+def test_valueless_generic_line_does_not_search(resolver, fake, hint, refs):
+    # a bare category word returned unrelated parts before (fuse -> LEDs and tactile switches)
+    fake.searches["fuse"] = fake.searches["switch"] = [_led()]
+    rl = resolver.resolve(make_line(refdes=refs, category_hint=hint), boards=1)
+    assert rl.status == "needs_decision" and rl.candidates == []
+    assert "no value, rating, package or description" in rl.reason and "MPN" in rl.reason
+    assert fake.names() == []
+
+
+def test_generic_fuse_with_rating_finds_fuses_only(resolver, fake):
+    fake.searches["2A 32V fuse"] = [_led(), _fuse()]
+    rl = resolver.resolve(make_line(refdes=["F1"], value="2A 32V", category_hint="fuse"), boards=1)
+    assert rl.status == "needs_decision"
+    assert [c.mpn for c in rl.candidates] == ["0287002.PXCN"]
+
+
+def test_candidates_outside_the_hinted_category_are_dropped(resolver, fake):
+    fake.searches["2A 32V fuse"] = [_led(), _fuse(category="Switches", children=())]
+    rl = resolver.resolve(make_line(refdes=["F1"], value="2A 32V", category_hint="fuse"), boards=1)
+    assert rl.candidates == []
+
+
+def test_unknown_product_category_is_dropped_when_the_hint_has_a_rule(resolver, fake):
+    fake.searches["2A 32V fuse"] = [_fuse(category="", children=())]
+    rl = resolver.resolve(make_line(refdes=["F1"], value="2A 32V", category_hint="fuse"), boards=1)
+    assert rl.candidates == []
+
+
+def test_generic_resistor_still_returns_candidates(resolver, fake):
+    fake.searches["10kohm 0603 resistor"] = [resistor_10k()]
+    rl = resolver.resolve(make_line(value="10kohm", package="0603", category_hint="resistor"), boards=1)
+    assert [c.mpn for c in rl.candidates] == ["RC0603FR-0710KL"]

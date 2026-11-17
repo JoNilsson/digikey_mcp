@@ -81,3 +81,28 @@ def test_package_extraction():
 )
 def test_strip_dnp(text, cleaned, found):
     assert strip_dnp(text) == (cleaned, found)
+
+
+@pytest.mark.parametrize(
+    "ref, prefix",
+    [
+        ("R12", "R"), ("D1", "D"), ("FU1", "FU"), ("TP_3", "TP"), ("U2A", "U"),
+        ("D1608E", ""), ("OPTA", ""), ("K8AK1", ""), ("GA-IS", ""), ("P-1", ""), ("LAMP_GRN", ""),
+    ],
+)
+def test_prefix_only_for_real_designators(ref, prefix):
+    from digikey_mcp.ingest.refdes import refdes_prefix
+
+    assert refdes_prefix(ref) == prefix
+
+
+@pytest.mark.parametrize("ref", ["D1608E", "A0602", "OPTA", "K8AK1", "CS1", "RCT1", "DAT1", "GA-IS", "P-1", "LAMP_GRN"])
+def test_module_names_and_labels_get_no_category(ref):
+    assert infer_category([ref], None, None, None) == "other"
+
+
+def test_part_number_stops_the_prefix_from_setting_a_spare_category():
+    assert infer_category(["D5"], None, None, None, has_part_number=True) == "other"
+    assert infer_category(["D5"], None, "Diode_SMD:D_SOD-123", None, has_part_number=True) == "diode"
+    assert infer_category(["R1"], "10k", None, None, has_part_number=True) == "resistor"
+    assert infer_category(["U1"], None, None, None, has_part_number=True) == "ic"

@@ -30,6 +30,10 @@ PREFIX_CATEGORY = {
 #: Prefixes the free-text parser accepts as designators.
 KNOWN_PREFIXES = frozenset(PREFIX_CATEGORY)
 
+#: categories that carry spare-part overage; a designator prefix alone does not set them on a line
+#: with an explicit part number
+_OVERAGE_CATEGORIES = frozenset({"resistor", "capacitor", "inductor", "led", "diode", "transistor"})
+
 _STRONG_TEXT = [
     (re.compile(r"fiducial", re.I), "fiducial"),
     (re.compile(r"mounting[\s_-]*hole|mtg[\s_-]*hole", re.I), "mounting_hole"),
@@ -109,15 +113,21 @@ def infer_category(
     value: str | None,
     footprint: str | None,
     description: str | None,
+    has_part_number: bool = False,
 ) -> str:
-    """resistor / capacitor / inductor / connector / ic / ... / other."""
+    """resistor / capacitor / inductor / connector / ic / ... / other.
+
+    The designator prefix only counts for a real designator (`refdes_prefix`). With
+    `has_part_number`, a prefix does not by itself give a resistor, capacitor, inductor,
+    LED, diode or transistor; footprint, description or a passive value must.
+    """
     for text in (footprint, description, value):
         for rx, cat in _STRONG_TEXT:
             if text and rx.search(text):
                 return cat
     if refs:
         cat = PREFIX_CATEGORY.get(refdes_prefix(refs[0]))
-        if cat and cat != "other":
+        if cat and cat != "other" and not (has_part_number and cat in _OVERAGE_CATEGORIES):
             return cat
     if footprint:
         lib = footprint.split(":", 1)[0] if ":" in footprint else ""

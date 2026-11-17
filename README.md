@@ -6,6 +6,18 @@ that fill a DigiKey cart. Nothing is ever submitted as an order: the user opens
 the links in a signed-in browser, reviews the cart, picks the payment method
 and clicks buy.
 
+You need:
+
+- Python 3.11 or newer, or Nix.
+- An account at <https://developer.digikey.com> (a different sign-up from the
+  DigiKey shop account).
+- A Production app there with Product Information V4 enabled.
+- The app's client ID and client secret, each in its own file.
+
+Without credentials the server starts and `ingest` and `cart_links` work; every
+DigiKey lookup fails. Section [Setup](#setup) has the steps and
+[Troubleshooting](#troubleshooting) the error messages.
+
 The server also exposes the DigiKey Product Information v4 endpoints as
 individual search and pricing tools. The command line (`digikey-mcp`) runs the
 whole BOM-to-cart workflow from a terminal and calls the same functions as the
@@ -66,6 +78,7 @@ registrations that pass no arguments keep working. `digikey-mcp --help`,
 | `quota` | DigiKey calls used and left this minute and UTC day. |
 | `sessions` | Saved sessions with status counts. |
 | `serve` | Start the MCP server on stdio (`--sandbox`). |
+| `doctor` | Check credentials and mode, no secrets shown (`--online`: token). |
 | `version`, `welcome`, `help` | Version, overview, help for one command. |
 
 Global flags, accepted before or after the command: `--version`,
@@ -92,10 +105,14 @@ a hint on stderr.
 
 ## Setup
 
-1. Create an account and organisation at <https://developer.digikey.com>.
-2. Create a Production app with the Product Information v4 API enabled. Note
-   its client ID and client secret. Two-legged OAuth (client credentials) is
-   used; no OAuth callback is needed.
+1. Create an account and organisation at <https://developer.digikey.com>. It
+   is a different sign-up from the DigiKey shop account.
+2. Create a Production app. Tick one API product, Product Information V4. Note
+   its client ID and client secret.
+   - The wizard asks for an "OAuth Callback URL". It is unused (two-legged
+     client-credentials OAuth); `https://localhost` satisfies the form.
+   - Sandbox and production credentials are different apps. A sandbox app needs
+     `DIGIKEY_SANDBOX=true`.
 3. Put the client ID and the client secret in two separate files, each holding
    only the value, and keep them out of the repository.
 4. Point the server at them with environment variables:
@@ -113,7 +130,11 @@ a hint on stderr.
   run fails with a runtime error.
 
 Credentials are read on the first DigiKey call, so the server starts and
-`cart_links` works without them.
+`cart_links` works without them. The start banner shows the credential state
+(see [Start banner](#start-banner)). `digikey-mcp doctor` reports which variables
+are set, whether the files exist and are non-empty, and sandbox or production
+mode, without printing a secret; `digikey-mcp doctor --online` also requests
+one token.
 
 ## Running
 
@@ -151,17 +172,54 @@ Python 3.11 or newer is required.
 
 ```bash
 uv sync --extra ingest       # or: pip install -e ".[ingest]"
-CLIENT_ID_FILE=~/.config/digikey/client_id \
-CLIENT_SECRET_FILE=~/.config/digikey/client_secret \
+CLIENT_ID_FILE=/home/you/.config/digikey/client_id \
+CLIENT_SECRET_FILE=/home/you/.config/digikey/client_secret \
 uv run digikey-mcp serve     # or: python -m digikey_mcp.server
 ```
 
 The `ingest` extra adds `openpyxl` (`.xlsx`) and `pdfplumber` (PDF). Without
 it CSV, XML and pasted text still work.
 
+### Start banner
+
+At start the server prints a block on stderr (stdout stays the MCP protocol):
+name and version, transport, the `claude mcp add` line for this executable
+with the configured credential paths (`/home/you/...` placeholders marked
+"replace" when unset), credential state (never the values), and production or
+sandbox with the API host. Run by hand in a terminal it adds a line saying it
+waits for an MCP client on stdin and serves nobody. It replaces FastMCP's own
+banner. `DIGIKEY_MCP_QUIET=1` or `-q` suppresses it; the one-line warning
+about missing credentials stays. Transport is stdio; `FASTMCP_TRANSPORT=http`
+or `sse` (FastMCP's own settings, with `FASTMCP_HOST`, `FASTMCP_PORT`) serves
+over HTTP instead, and the banner then shows the URL and the matching
+`claude mcp add --transport` line. The server has no flag of its own for it.
+
 ### Claude Code
 
-A project `.mcp.json` entry for a non-Nix install:
+Replace every path below with your own. Command line form:
+
+```bash
+claude mcp add digikey \
+  -e CLIENT_ID_FILE=/home/you/.config/digikey/client_id \
+  -e CLIENT_SECRET_FILE=/home/you/.config/digikey/client_secret \
+  -- digikey-mcp serve
+```
+
+To run the server from another project's directory through direnv (the dev
+shell of this checkout, after `direnv allow` there):
+
+```bash
+claude mcp add digikey \
+  -e CLIENT_ID_FILE=/home/you/.config/digikey/client_id \
+  -e CLIENT_SECRET_FILE=/home/you/.config/digikey/client_secret \
+  -- direnv exec /path/to/digikey_mcp digikey-mcp
+```
+
+An MCP stdio server is started by each client. A copy running in another
+terminal does not serve a second client; every client needs its own
+registration.
+
+The same registration as a project `.mcp.json` entry for a non-Nix install:
 
 ```json
 {
@@ -214,6 +272,26 @@ DigiKey Product Information v4:
 
 The search tools return trimmed data; pass `raw=True` where offered for the
 full DigiKey response.
+
+## Troubleshooting
+
+- `CLIENT_ID and CLIENT_SECRET not set` (or one of the two): the variable is
+  unset in the environment the client gave the server. Set `CLIENT_ID_FILE` and
+  `CLIENT_SECRET_FILE` in the registration's `env`, or with `-e` on
+  `claude mcp add`.
+- `CLIENT_ID_FILE points to an unreadable file` (or `CLIENT_SECRET_FILE`): the
+  path is wrong, the file is not readable, or a placeholder path from an
+  example was left in. Point it at the real file; `digikey-mcp doctor` names
+  the path and the problem.
+- `points to an empty file`: the file holds no value. Write only the value
+  into it.
+- `/mcp` shows the server Connected but every lookup fails: credentials are
+  read on the first DigiKey call, not at start. Run `digikey-mcp doctor`, then
+  `digikey-mcp doctor --online`.
+- `token request rejected (401)`: wrong ID or secret, the app lacks Product
+  Information V4, or sandbox and production credentials are mixed. Check the
+  app on developer.digikey.com; set `DIGIKEY_SANDBOX=true` only with a sandbox
+  app.
 
 ## Rate limits and cache
 

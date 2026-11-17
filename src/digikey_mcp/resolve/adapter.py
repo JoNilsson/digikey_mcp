@@ -73,6 +73,8 @@ class ProductInfo:
     stock: int = 0
     unit_price: float | None = None
     category: str = ""
+    #: names of the categories below `category`, parent before child
+    category_path: tuple[str, ...] = ()
     parameters: dict[str, str] = field(default_factory=dict)
     packagings: list[Packaging] = field(default_factory=list)
 
@@ -252,6 +254,7 @@ def parse_product(p: Mapping[str, Any]) -> ProductInfo:
         stock=_int(p.get("quantity_available")),
         unit_price=unit_price,
         category=str(category.get("name") or "") if isinstance(category, Mapping) else "",
+        category_path=tuple(str(n) for n in category.get("path") or []) if isinstance(category, Mapping) else (),
         parameters=dict(p.get("parameters") or {}),
         packagings=packagings,
     )

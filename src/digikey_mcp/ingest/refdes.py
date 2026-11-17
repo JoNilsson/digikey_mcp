@@ -7,6 +7,9 @@ import re
 MAX_RANGE = 2000
 
 _REF = re.compile(r"^(?P<prefix>[A-Za-z_]+?)(?P<num>\d+)(?P<suffix>[A-Za-z]?)$")
+#: a real designator: letters, then digits; a unit letter (U2A) only after up to three digits,
+#: so a module name such as D1608E is not one
+_DESIGNATOR = re.compile(r"^(?P<prefix>[A-Za-z]+)_?(?:\d+|\d{1,3}[A-Za-z])$")
 _RANGE = re.compile(
     r"^(?P<p1>[A-Za-z_]+)(?P<n1>\d+)[-–—~](?P<p2>[A-Za-z_]*)(?P<n2>\d+)$"
 )
@@ -16,9 +19,9 @@ _SPLIT = re.compile(r"[,;\s]+")
 
 
 def refdes_prefix(ref: str) -> str:
-    """Upper-case letter prefix of a designator ("R12" -> "R", "TP3" -> "TP")."""
-    m = _REF.match(ref)
-    return m.group("prefix").upper().strip("_") if m else ""
+    """Upper-case letter prefix of a designator ("R12" -> "R", "TP3" -> "TP"); "" when `ref` is no designator."""
+    m = _DESIGNATOR.match(ref)
+    return m.group("prefix").upper() if m else ""
 
 
 def natural_key(ref: str):

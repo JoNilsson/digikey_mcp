@@ -94,3 +94,6 @@ logs/
 result
 result-*
 .direnv/
+
+# Git worktrees
+.worktrees/

@@ -79,3 +79,11 @@ Without a header, a line is accepted only when it starts with known
 designators (`R1, R2`, `C1-C3`) or a quantity (`4x`) and carries at least a
 value, package or DigiKey number. Everything else, including bare numbers that
 could be a value or a quantity, goes to `unparsed_rows`.
+
+The designator prefix sets the category only for a real designator: letters,
+then digits (`R12`, `FU1`), with a unit letter after at most three digits
+(`U2A`). Module names and labels (`D1608E`, `A0602`, `OPTA`, `GA-IS`) give no
+prefix category. On a line with a manufacturer or DigiKey part number, a prefix
+alone does not give resistor, capacitor, inductor, LED, diode or transistor (the
+categories that carry spare-part overage); the footprint, description or a
+passive value must.

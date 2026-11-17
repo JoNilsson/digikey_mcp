@@ -38,5 +38,7 @@ def run(args: argparse.Namespace, ctx: Context) -> int:
         raise UsageError("serve does not take --cache-dir", hint="the server keeps its state under XDG_CACHE_HOME")
     if args.sandbox:
         os.environ["DIGIKEY_SANDBOX"] = "true"
+    if ctx.quiet:
+        os.environ["DIGIKEY_MCP_QUIET"] = "1"
     start_server()
     return 0
