@@ -18,7 +18,7 @@ PROG = "digikey-mcp"
 
 CREDENTIAL_HINT = (
     "set CLIENT_ID_FILE and CLIENT_SECRET_FILE to files holding your DigiKey client ID "
-    f"and secret (or CLIENT_ID and CLIENT_SECRET); see '{PROG} welcome'"
+    f"and secret (or CLIENT_ID and CLIENT_SECRET); run '{PROG} doctor' to check them"
 )
 
 

@@ -13,6 +13,7 @@ import os
 import threading
 import time
 from collections.abc import Callable, Iterable, Mapping
+from dataclasses import dataclass
 from typing import Any
 from urllib.parse import quote
 
@@ -60,6 +61,58 @@ def _read_setting(name: str, env: Mapping[str, str]) -> str | None:
         return value
     value = env.get(name)
     return value.strip() if value and value.strip() else None
+
+
+@dataclass(frozen=True)
+class CredentialCheck:
+    """State of one credential (CLIENT_ID or CLIENT_SECRET); never holds the value."""
+
+    name: str
+    #: "file" (NAME_FILE is set), "variable" (NAME is set) or "unset"
+    source: str
+    path: str | None
+    #: None when usable, else why not: "unset", "file not found", "file unreadable", "file empty"
+    problem: str | None
+
+    @property
+    def ok(self) -> bool:
+        return self.problem is None
+
+    def describe(self) -> str:
+        """One phrase naming what is wrong, for warnings."""
+        if self.problem == "unset":
+            return f"{self.name} not set"
+        return f"{self.name}_FILE: {self.problem}"
+
+
+def check_credential(name: str, env: Mapping[str, str]) -> CredentialCheck:
+    """Resolve one credential the way `_read_setting` does, without returning its value."""
+    path = env.get(f"{name}_FILE")
+    if path:
+        try:
+            with open(path, encoding="utf-8") as fh:
+                value = fh.read().strip()
+        except FileNotFoundError:
+            return CredentialCheck(name, "file", path, "file not found")
+        except OSError:
+            return CredentialCheck(name, "file", path, "file unreadable")
+        return CredentialCheck(name, "file", path, None if value else "file empty")
+    value = env.get(name)
+    if value and value.strip():
+        return CredentialCheck(name, "variable", None, None)
+    return CredentialCheck(name, "unset", None, "unset")
+
+
+def check_credentials(env: Mapping[str, str] | None = None) -> tuple[CredentialCheck, CredentialCheck]:
+    """State of the client ID and the client secret; reads files, makes no network call."""
+    env = os.environ if env is None else env
+    return check_credential("CLIENT_ID", env), check_credential("CLIENT_SECRET", env)
+
+
+def sandbox_enabled(env: Mapping[str, str] | None = None) -> bool:
+    """True when DIGIKEY_SANDBOX selects sandbox-api.digikey.com."""
+    env = os.environ if env is None else env
+    return env.get("DIGIKEY_SANDBOX", "").strip().lower() in _TRUE
 
 
 def load_credentials(env: Mapping[str, str] | None = None) -> tuple[str, str]:
@@ -174,7 +227,7 @@ class DigiKeyClient:
         env = os.environ if env is None else env
         client_id, client_secret = load_credentials(env)
         settings: dict[str, Any] = {
-            "sandbox": env.get("DIGIKEY_SANDBOX", "").strip().lower() in _TRUE,
+            "sandbox": sandbox_enabled(env),
         }
         for key, var in (
             ("locale_site", "DIGIKEY_LOCALE_SITE"),
@@ -227,6 +280,10 @@ class DigiKeyClient:
             self._token_expires = self._clock() + max(lifetime - self._token_margin, 0.0)
         logger.debug("obtained DigiKey access token (%ss)", lifetime)
         return token
+
+    def authenticate(self) -> None:
+        """Request a token now; raises DigiKeyAuthError when DigiKey rejects the credentials."""
+        self._get_token()
 
     def _get_token(self) -> str:
         with self._lock:

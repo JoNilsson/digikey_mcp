@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import functools
 import logging
+import sys
 import threading
 from collections.abc import Callable
 from typing import Any
@@ -19,7 +20,7 @@ from fastmcp.exceptions import ToolError
 from . import trim
 from .cart import register as register_cart
 from .resolve import register as register_resolve
-from .client import DigiKeyClient, DigiKeyError
+from .client import DigiKeyClient, DigiKeyError, check_credentials
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +42,8 @@ Rules:
 - Quota is 120 requests/min and 1000/day. Check quota_status before large
   BOMs; a quota-limited run is resumable with its session_id.
 - Search tools return trimmed data; pass raw=True only when a field is missing.
+- Lookups need DigiKey API credentials; if a tool reports missing credentials,
+  tell the user to run `digikey-mcp doctor`.
 """
 
 mcp = FastMCP("DigiKey MCP Server", instructions=INSTRUCTIONS)
@@ -332,7 +335,25 @@ register_cart(mcp)
 register_resolve(mcp)
 
 
+def warn_if_credentials_missing() -> bool:
+    """Write one stderr line when DigiKey credentials are unusable; return True if it did.
+
+    The server still starts: ingest and cart_links need no credentials.
+    """
+    problems = [c.describe() for c in check_credentials() if not c.ok]
+    if not problems:
+        return False
+    print(
+        f"digikey-mcp: warning: DigiKey credentials missing ({'; '.join(problems)}); "
+        "DigiKey lookups will fail until set. See README.md section 'Setup' "
+        "or run 'digikey-mcp doctor'.",
+        file=sys.stderr,
+    )
+    return True
+
+
 def main() -> None:
+    warn_if_credentials_missing()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
     mcp.run()
 

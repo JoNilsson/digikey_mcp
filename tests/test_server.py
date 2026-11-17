@@ -87,3 +87,44 @@ def test_expected_tools_registered():
         "search_categories",
         "get_category_by_id",
     }
+
+
+def _clear_credentials(monkeypatch):
+    for name in ("CLIENT_ID", "CLIENT_SECRET", "CLIENT_ID_FILE", "CLIENT_SECRET_FILE"):
+        monkeypatch.delenv(name, raising=False)
+
+
+def test_startup_warns_once_on_stderr_when_credentials_are_missing(monkeypatch, capsys):
+    _clear_credentials(monkeypatch)
+    monkeypatch.setenv("CLIENT_SECRET_FILE", "/home/you/.config/digikey/client_secret")
+    assert server.warn_if_credentials_missing() is True
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    lines = captured.err.splitlines()
+    assert len(lines) == 1
+    assert "CLIENT_ID not set" in lines[0]
+    assert "CLIENT_SECRET_FILE: file not found" in lines[0]
+    assert "README.md section 'Setup'" in lines[0] and "digikey-mcp doctor" in lines[0]
+
+
+def test_startup_is_silent_when_credentials_resolve(monkeypatch, tmp_path, capsys):
+    _clear_credentials(monkeypatch)
+    monkeypatch.setenv("CLIENT_ID", "id")
+    secret = tmp_path / "client_secret"
+    secret.write_text("secret\n", encoding="utf-8")
+    monkeypatch.setenv("CLIENT_SECRET_FILE", str(secret))
+    assert server.warn_if_credentials_missing() is False
+    assert capsys.readouterr().err == ""
+
+
+def test_main_warns_but_still_serves(monkeypatch, capsys):
+    _clear_credentials(monkeypatch)
+    ran = []
+    monkeypatch.setattr(server.mcp, "run", lambda: ran.append(True))
+    server.main()
+    assert ran == [True]
+    assert "credentials missing" in capsys.readouterr().err
+
+
+def test_instructions_point_to_doctor():
+    assert "digikey-mcp doctor" in server.INSTRUCTIONS

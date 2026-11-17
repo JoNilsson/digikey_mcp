@@ -23,6 +23,7 @@ COMMANDS: tuple[tuple[str, str], ...] = (
     ("quota", "Show DigiKey API calls used and left."),
     ("sessions", "List saved resolution sessions with status counts."),
     ("serve", "Start the MCP server on stdio."),
+    ("doctor", "Check the DigiKey credentials without printing them."),
     ("version", "Print the version."),
     ("welcome", "Show this overview."),
     ("help", "Show this overview, or help for one command."),
@@ -109,7 +110,9 @@ def render(width: int = 80, style: Style | None = None, cache_dir: str | None = 
     out += ["", head("CREDENTIALS")]
     out += _para(
         "Set CLIENT_ID_FILE and CLIENT_SECRET_FILE to files holding your DigiKey "
-        "client ID and secret (or CLIENT_ID and CLIENT_SECRET directly).",
+        "client ID and secret (or CLIENT_ID and CLIENT_SECRET directly). They come "
+        "from an app at developer.digikey.com, a different sign-up from the DigiKey "
+        "shop account. Run 'digikey-mcp doctor' to check them.",
         width,
     )
     out += _para("Set DIGIKEY_SANDBOX=true to use the DigiKey sandbox instead of production.", width)
