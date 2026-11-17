@@ -48,6 +48,9 @@ class PackagingOption:
     invalid_reason: str = ""
     #: "variation" (computed from price breaks) or "dk_quote" (pricingbyquantity)
     source: str = "variation"
+    #: set when the quantity was raised to a larger price break: the quantity before, and the saving
+    rounded_from: int = 0
+    saving: float = 0.0
 
     def label(self) -> str:
         cost = "n/a" if self.total_cost is None else f"${self.total_cost:.2f}"

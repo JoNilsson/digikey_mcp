@@ -141,6 +141,26 @@ def trim_product_details(response: Mapping[str, Any], parameters: Parameters = T
     return trim_product(response.get("Product") or {}, parameters)
 
 
+def trim_parametric_filters(response: Mapping[str, Any], select: Iterable[str]) -> list[dict[str, Any]]:
+    """The selectable parameter values of a category-filtered keyword search.
+
+    Keeps the parameters named in `select` (case-insensitive) as
+    {"parameter_id", "name", "values": [{"id", "name"}]}.
+    """
+    wanted = {s.lower() for s in select}
+    out = []
+    for f in _list((response.get("FilterOptions") or {}).get("ParametricFilters")):
+        if not isinstance(f, Mapping) or str(f.get("ParameterName", "")).lower() not in wanted:
+            continue
+        values = [
+            {"id": str(v.get("ValueId")), "name": str(v.get("ValueName"))}
+            for v in _list(f.get("FilterValues"))
+            if isinstance(v, Mapping) and v.get("ValueId") is not None
+        ]
+        out.append({"parameter_id": f.get("ParameterId"), "name": f.get("ParameterName"), "values": values})
+    return out
+
+
 def trim_keyword_response(response: Mapping[str, Any], parameters: Parameters = True) -> dict[str, Any]:
     """Trim a keyword search response."""
     return _compact(

@@ -108,6 +108,14 @@ def extract_package(footprint: str | None) -> str | None:
     return m.group(1) if m else (name or None)
 
 
+def _is_led(footprint: str | None, description: str | None, value: str | None) -> bool:
+    lib = (footprint or "").split(":", 1)[0] if ":" in (footprint or "") else ""
+    return bool(
+        re.match(r"led_", lib, re.IGNORECASE)
+        or any(re.search(r"\bled\b", t or "", re.IGNORECASE) for t in (description, value))
+    )
+
+
 def infer_category(
     refs: list[str],
     value: str | None,
@@ -127,6 +135,8 @@ def infer_category(
                 return cat
     if refs:
         cat = PREFIX_CATEGORY.get(refdes_prefix(refs[0]))
+        if cat == "diode" and _is_led(footprint, description, value):
+            cat = "led"  # LEDs are numbered D1, D2 ... like any diode
         if cat and cat != "other" and not (has_part_number and cat in _OVERAGE_CATEGORIES):
             return cat
     if footprint:

@@ -92,7 +92,7 @@ def test_mpn_not_found(resolver, fake):
 
 def test_generic_line_never_auto_picks(resolver, fake):
     # one perfect, cheap, in-stock match still needs the user's decision
-    fake.searches["10kohm 0603 resistor"] = [resistor_10k()]
+    fake.catalog[52] = [resistor_10k()]
     line = make_line(refdes=["R1", "R2"], value="10kohm", package="0603", footprint="R_0603", category_hint="resistor")
     assert line.generic
     rl = resolver.resolve(line, boards=1)
@@ -102,6 +102,7 @@ def test_generic_line_never_auto_picks(resolver, fake):
     best = rl.candidates[0]
     assert best.mpn == "RC0603FR-0710KL" and best.stock > 0 and best.unit_price and best.why
     assert rl.needed_qty == 4  # 2 + max(ceil(0.2), 2)
+    assert "Resistance 10 kOhms" in best.why and "Package / Case 0603 (1608 Metric)" in best.why
 
 
 def test_generic_candidates_ranked_and_capped(resolver, fake):
@@ -111,10 +112,11 @@ def test_generic_candidates_ranked_and_capped(resolver, fake):
             product(
                 f"RES-{i}", "Yageo" if i == 3 else "Generic",
                 [variation(f"RES-{i}-ND", "Cut Tape (CT)", stock=0 if i == 0 else 5000, breaks=((1, 0.1 + i * 0.01),))],
-                desc="10k 0603 resistor", params={"Package / Case": "0603"},
+                desc="10k 0603 resistor", category_id=52, children=("Chip Resistor - Surface Mount",),
+                params={"Resistance": "10 kOhms", "Tolerance": "±1%", "Package / Case": "0603 (1608 Metric)"},
             )
         )
-    fake.searches["10kohm 0603 resistor"] = items
+    fake.catalog[52] = items
     prefs = Preferences.from_dict({"generic": {"preferred_manufacturers": ["Yageo"]}})
     resolver.prefs = prefs
     resolver.gw.prefs = prefs
@@ -258,6 +260,6 @@ def test_unknown_product_category_is_dropped_when_the_hint_has_a_rule(resolver, 
 
 
 def test_generic_resistor_still_returns_candidates(resolver, fake):
-    fake.searches["10kohm 0603 resistor"] = [resistor_10k()]
+    fake.catalog[52] = [resistor_10k()]
     rl = resolver.resolve(make_line(value="10kohm", package="0603", category_hint="resistor"), boards=1)
     assert [c.mpn for c in rl.candidates] == ["RC0603FR-0710KL"]

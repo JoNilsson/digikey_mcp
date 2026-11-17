@@ -8,7 +8,12 @@ from resolve_fakes import make_line, product, resistor_10k, variation
 from digikey_mcp.resolve import adapter, packaging
 from digikey_mcp.resolve.gateway import Gateway
 from digikey_mcp.resolve.ladder import LineResolver
-from digikey_mcp.resolve.prefs import Preferences, load_preferences, needed_quantity
+from digikey_mcp.resolve.prefs import (
+    Overage,
+    Preferences,
+    load_preferences,
+    needed_quantity,
+)
 from digikey_mcp.resolve.store import Store
 
 
@@ -20,7 +25,15 @@ from digikey_mcp.resolve.store import Store
         ("resistor", 25, 1, 28),  # ceil(2.5) = 3
         ("resistor", 30, 1, 33),  # 3.0000000000000004 must not round to 4
         ("capacitor", 4, 5, 22),  # 20 base + 10% = 2
-        ("ic", 4, 3, 12),  # no overage
+        ("resistor", 1, 1, 3),  # a single resistor: the minimum of +2
+        ("resistor", 92, 1, 102),  # 10 % of 92 rounded up
+        ("led", 17, 1, 19),
+        ("led", 1, 1, 2),
+        ("diode", 1, 1, 1),  # no spares outside resistors, capacitors and LEDs
+        ("diode", 47, 1, 47),
+        ("transistor", 3, 1, 3),
+        ("inductor", 3, 1, 3),
+        ("ic", 4, 3, 12),
         ("connector", 2, 10, 20),
         ("other", 7, 1, 7),
     ],
@@ -41,6 +54,7 @@ def test_overage_overridden_by_toml(tmp_path):
     assert needed_quantity(make_line(quantity=100, category_hint="resistor"), 1, prefs) == (100, 8, 108)
     assert needed_quantity(make_line(quantity=10, category_hint="resistor"), 1, prefs) == (10, 5, 15)
     assert prefs.allow_marketplace
+    assert needed_quantity(make_line(quantity=100, category_hint="diode"), 1, prefs) == (100, 0, 100)
     # untouched categories keep their defaults
     assert needed_quantity(make_line(quantity=100, category_hint="capacitor"), 1, prefs)[1] == 10
 
@@ -203,16 +217,92 @@ def test_module_name_with_a_diode_like_prefix_is_not_a_diode():
     assert _spares("D1608E,1,,AFX00005\n")["D1608E"] == (0, "other")
 
 
-def test_real_designators_keep_their_overage():
+def test_real_designators_get_the_spares_of_their_category():
     spares = _spares("D1 D2,2,1N4148,\nR1,1,10k,\nC3,1,100nF,\n")
-    assert spares["D1"] == (1, "diode")
+    assert spares["D1"] == (0, "diode")
     assert spares["R1"] == (2, "resistor")
     assert spares["C3"] == (2, "capacitor")
 
 
-def test_passive_by_value_keeps_overage_with_a_part_number():
-    assert _spares("R1,1,10k,RC0603FR-0710KL\n")["R1"] == (2, "resistor")
+def test_a_named_part_gets_no_spares():
+    assert _spares("R1,1,10k,RC0603FR-0710KL\n")["R1"] == (0, "resistor")
+
+
+def test_spares_for_named_parts_when_the_preferences_say_so():
+    prefs = Preferences.from_dict({"overage": {"named_parts": True}})
+    line = make_line(quantity=1, mpn="RC0603FR-0710KL", category_hint="resistor")
+    assert needed_quantity(line, 1, prefs) == (1, 2, 3)
+
+
+def test_spares_never_more_than_double_above_ten():
+    assert Overage(200, 0).extra(50) == 50
+    assert Overage(100, 2).extra(11) == 11
+    assert Overage(200, 0).extra(10) == 20  # up to ten parts only the percentage and minimum apply
+    prefs = Preferences.from_dict({"overage": {"resistor": {"percent": 300}}})
+    assert needed_quantity(make_line(quantity=40, category_hint="resistor"), 1, prefs) == (40, 40, 80)
+
+
+def test_spare_preferences_are_validated():
+    with pytest.raises(ValueError, match="takes percent"):
+        Preferences.from_dict({"overage": {"resistor": 5}})
+    prefs = Preferences.from_dict({"overage": {"price_limit": 0, "named_parts": True}})
+    assert prefs.spare_price_limit == 0 and prefs.spares_for_named_parts
 
 
 def test_prefix_alone_is_not_enough_when_a_part_number_is_given():
     assert _spares("D5,1,,BAT54\n")["D5"] == (0, "other")
+
+
+def test_led_numbered_like_a_diode_is_an_led():
+    spares = _spares("D3 D5,2,LED green,\n")
+    assert spares["D3"] == (1, "led")
+
+
+# ---- spares and price breaks in the reason ------------------------------------
+
+
+def costly_cap(price):
+    return product("CAP-1", "Maker", [variation("CAP-1-ND", "Cut Tape (CT)", breaks=((1, price),))], category="Capacitors")
+
+
+def test_reason_shows_the_arithmetic(resolver, fake):
+    fake.add(costly_cap(0.5))
+    line = make_line(quantity=45, category_hint="capacitor")
+    rl = resolver.resolve(line, boards=1, decision="CAP-1-ND")  # a decision on a generic line keeps its spares
+    assert (rl.base_qty, rl.overage, rl.needed_qty, rl.order_qty) == (45, 5, 50, 50)
+    assert "need 45 + 5 spare = 50" in rl.reason
+
+
+def test_no_spares_above_the_unit_price_limit(resolver, fake):
+    fake.add(costly_cap(2.0))
+    rl = resolver.resolve(make_line(quantity=45, category_hint="capacitor"), boards=1, decision="CAP-1-ND")
+    assert (rl.overage, rl.needed_qty, rl.order_qty) == (0, 45, 45)
+    assert "need 45)" in rl.reason and "no spares, unit price $2.00 is above the $1.00 limit" in rl.reason
+
+
+def test_spare_price_limit_can_be_changed(resolver, fake):
+    resolver.prefs = Preferences.from_dict({"overage": {"price_limit": 5}})
+    fake.add(costly_cap(2.0))
+    rl = resolver.resolve(make_line(quantity=45, category_hint="capacitor"), boards=1, decision="CAP-1-ND")
+    assert rl.overage == 5 and rl.order_qty == 50
+
+
+def test_round_up_to_a_price_break_only_when_cheaper():
+    cut = pk("Cut Tape (CT)", "C-ND", breaks=[(1, 0.10), (10, 0.043), (100, 0.0165), (500, 0.0105)])
+    # 45 x 0.043 = 1.935; 100 x 0.0165 = 1.65 is cheaper, so the order is raised to 100
+    opt = packaging.option_for(cut, 45, Preferences(), 100000)
+    assert (opt.order_qty, opt.rounded_from) == (100, 45) and opt.total_cost == pytest.approx(1.65)
+    assert opt.saving == pytest.approx(1.935 - 1.65)
+    # 300 x 0.0165 = 4.95 against 500 x 0.0105 = 5.25: stay at 300
+    opt = packaging.option_for(cut, 300, Preferences(), 100000)
+    assert (opt.order_qty, opt.rounded_from, opt.saving) == (300, 0, 0.0)
+    # the stock must cover the larger quantity
+    opt = packaging.option_for(pk("Cut Tape (CT)", "C-ND", breaks=[(1, 0.10), (10, 0.043)], quantity_available=8), 6, Preferences(), 8)
+    assert opt.order_qty == 6
+
+
+def test_break_rounding_is_named_in_the_reason(resolver, fake):
+    fake.add(resistor_10k())
+    rl = resolver.resolve(make_line(quantity=45, mpn="RC0603FR-0710KL", category_hint="other"), boards=1)
+    assert rl.order_qty == 100 and "need 45)" in rl.reason
+    assert "raised to 100 for the price break (saves $0.28)" in rl.reason

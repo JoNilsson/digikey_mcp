@@ -73,3 +73,43 @@ def test_package_size_is_not_a_value():
 
 def test_part_name_with_non_passive_hint_is_not_parsed():
     assert not normalise_value("1N914", "diode").parsed
+
+
+@pytest.mark.parametrize(
+    "text, expected",
+    [
+        ("2 A", (2.0, "A")),
+        ("200 mA", (0.2, "A")),
+        ("0.5A", (0.5, "A")),
+        ("32V", (32.0, "V")),
+        ("6.3V", (6.3, "V")),
+        ("50 V", (50.0, "V")),
+        ("1.5 kV", (1500.0, "V")),
+        ("32VDC", (32.0, "V")),
+        ("-", None),
+        ("0805 (2012 Metric)", None),
+        ("±1%", None),
+        ("", None),
+    ],
+)
+def test_parse_measure(text, expected):
+    from digikey_mcp.ingest.values import parse_measure
+
+    assert parse_measure(text) == expected
+
+
+@pytest.mark.parametrize(
+    "text, hint, number, unit",
+    [
+        ("10 kOhms", "resistor", 10_000.0, "ohm"),
+        ("0 Ohms", "resistor", 0.0, "ohm"),
+        ("1.47 kOhms", "resistor", 1_470.0, "ohm"),
+        ("4.7 mOhms", "resistor", 0.0047, "ohm"),
+        ("0.1 µF", "capacitor", 1e-7, "F"),
+        ("470 µF", "capacitor", 4.7e-4, "F"),
+        ("100 pF", "capacitor", 1e-10, "F"),
+    ],
+)
+def test_digikey_parameter_values_parse_to_si(text, hint, number, unit):
+    info = normalise_value(text, hint)
+    assert info.unit == unit and info.number == pytest.approx(number)

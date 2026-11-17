@@ -1,0 +1,1635 @@
+{
+"case":"fuse_ato_2a",
+"line_id":11,
+"category_id":139,
+"keywords":"ATO fuse",
+"needed":3,
+"filters":{
+"2088":[
+"2 A"
+],
+"2144":[
+"32 V",
+"58 V",
+"80 V"
+],
+"16":[
+"320294"
+]
+},
+"why_not":"",
+"facets":[
+{
+"ParameterId":2088,
+"ParameterName":"Current Rating (Amps)",
+"FilterValues":[
+{
+"ValueId":"2 A",
+"ValueName":"2 A"
+},
+{
+"ValueId":"0.5 A",
+"ValueName":"0.5 A"
+},
+{
+"ValueId":"500 mA",
+"ValueName":"500 mA"
+},
+{
+"ValueId":"1 A",
+"ValueName":"1 A"
+},
+{
+"ValueId":"3 A",
+"ValueName":"3 A"
+}
+]
+},
+{
+"ParameterId":2143,
+"ParameterName":"Voltage Rating - AC",
+"FilterValues":[
+{
+"ValueId":"32 V",
+"ValueName":"32 V"
+},
+{
+"ValueId":"250 V",
+"ValueName":"250 V"
+}
+]
+},
+{
+"ParameterId":2144,
+"ParameterName":"Voltage Rating - DC",
+"FilterValues":[
+{
+"ValueId":"32 V",
+"ValueName":"32 V"
+},
+{
+"ValueId":"58 V",
+"ValueName":"58 V"
+},
+{
+"ValueId":"80 V",
+"ValueName":"80 V"
+}
+]
+},
+{
+"ParameterId":16,
+"ParameterName":"Package / Case",
+"FilterValues":[
+{
+"ValueId":"320294",
+"ValueName":"Blade, ATO/ATC"
+},
+{
+"ValueId":"320310",
+"ValueName":"Blade, Max"
+},
+{
+"ValueId":"320314",
+"ValueName":"Blade, Miniature"
+}
+]
+}
+],
+"products":[
+{
+"ManufacturerProductNumber":"0287002.PXCN",
+"Manufacturer":{
+"Id":18,
+"Name":"Littelfuse Inc."
+},
+"Description":{
+"ProductDescription":"FUSE AUTO 2A 32VDC BLADE ATO/ATC"
+},
+"QuantityAvailable":121405,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.46,
+"Category":{
+"CategoryId":9,
+"Name":"Circuit Protection",
+"ChildCategories":[
+{
+"CategoryId":139,
+"Name":"Fuses",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"F4192-ND",
+"PackageType":{
+"Id":3,
+"Name":"Bulk"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.46,
+"TotalPrice":0.46
+},
+{
+"BreakQuantity":5,
+"UnitPrice":0.382,
+"TotalPrice":1.91
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.353,
+"TotalPrice":3.53
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.2928,
+"TotalPrice":14.64
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.2701,
+"TotalPrice":27.01
+},
+{
+"BreakQuantity":250,
+"UnitPrice":0.24284,
+"TotalPrice":60.71
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.22402,
+"TotalPrice":112.01
+},
+{
+"BreakQuantity":2000,
+"UnitPrice":0.19044,
+"TotalPrice":380.88
+},
+{
+"BreakQuantity":6000,
+"UnitPrice":0.16722,
+"TotalPrice":1003.32
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":121405,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"395953",
+"ValueText":"Requires Holder"
+},
+{
+"ParameterId":49,
+"ParameterText":"Fuse Type",
+"ValueId":"316912",
+"ValueText":"Automotive"
+},
+{
+"ParameterId":2088,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"2 A",
+"ValueText":"2 A"
+},
+{
+"ParameterId":2144,
+"ParameterText":"Voltage Rating - DC",
+"ValueId":"32 V",
+"ValueText":"32 V"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"320294",
+"ValueText":"Blade, ATO/ATC"
+},
+{
+"ParameterId":37,
+"ParameterText":"Color",
+"ValueId":"351068",
+"ValueText":"Gray"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"32977",
+"ValueText":"0.752\" L x 0.201\" W x 0.484\" H (19.10mm x 5.10mm x 12.30mm)"
+}
+]
+},
+{
+"ManufacturerProductNumber":"0287002.H",
+"Manufacturer":{
+"Id":18,
+"Name":"Littelfuse Inc."
+},
+"Description":{
+"ProductDescription":"FUSE AUTO 2A 32VDC BLADE ATO/ATC"
+},
+"QuantityAvailable":2838,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.63,
+"Category":{
+"CategoryId":9,
+"Name":"Circuit Protection",
+"ChildCategories":[
+{
+"CategoryId":139,
+"Name":"Fuses",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"0287002.H-ND",
+"PackageType":{
+"Id":3,
+"Name":"Bulk"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.63,
+"TotalPrice":0.63
+},
+{
+"BreakQuantity":5,
+"UnitPrice":0.526,
+"TotalPrice":2.63
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.485,
+"TotalPrice":4.85
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.4022,
+"TotalPrice":20.11
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.371,
+"TotalPrice":37.1
+},
+{
+"BreakQuantity":300,
+"UnitPrice":0.32653,
+"TotalPrice":97.959
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.30764,
+"TotalPrice":153.82
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.28367,
+"TotalPrice":283.67
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.23454,
+"TotalPrice":1172.7
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":2838,
+"MinimumOrderQuantity":1,
+"StandardPackage":100,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"395953",
+"ValueText":"Requires Holder"
+},
+{
+"ParameterId":49,
+"ParameterText":"Fuse Type",
+"ValueId":"316912",
+"ValueText":"Automotive"
+},
+{
+"ParameterId":2088,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"2 A",
+"ValueText":"2 A"
+},
+{
+"ParameterId":2144,
+"ParameterText":"Voltage Rating - DC",
+"ValueId":"32 V",
+"ValueText":"32 V"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"320294",
+"ValueText":"Blade, ATO/ATC"
+},
+{
+"ParameterId":37,
+"ParameterText":"Color",
+"ValueId":"351068",
+"ValueText":"Gray"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"32977",
+"ValueText":"0.752\" L x 0.201\" W x 0.484\" H (19.10mm x 5.10mm x 12.30mm)"
+}
+]
+},
+{
+"ManufacturerProductNumber":"0287002.L",
+"Manufacturer":{
+"Id":18,
+"Name":"Littelfuse Inc."
+},
+"Description":{
+"ProductDescription":"FUSE AUTO 2A 32VDC BLADE ATO/ATC"
+},
+"QuantityAvailable":1359,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.68,
+"Category":{
+"CategoryId":9,
+"Name":"Circuit Protection",
+"ChildCategories":[
+{
+"CategoryId":139,
+"Name":"Fuses",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"0287002.L-ND",
+"PackageType":{
+"Id":61,
+"Name":"Box"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.68,
+"TotalPrice":0.68
+},
+{
+"BreakQuantity":5,
+"UnitPrice":0.56,
+"TotalPrice":2.8
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.516,
+"TotalPrice":5.16
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.4282,
+"TotalPrice":21.41
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.3951,
+"TotalPrice":39.51
+},
+{
+"BreakQuantity":250,
+"UnitPrice":0.35516,
+"TotalPrice":88.79
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.32758,
+"TotalPrice":163.79
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.30204,
+"TotalPrice":302.04
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.25162,
+"TotalPrice":1258.1
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":1359,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"395953",
+"ValueText":"Requires Holder"
+},
+{
+"ParameterId":49,
+"ParameterText":"Fuse Type",
+"ValueId":"316912",
+"ValueText":"Automotive"
+},
+{
+"ParameterId":2088,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"2 A",
+"ValueText":"2 A"
+},
+{
+"ParameterId":2144,
+"ParameterText":"Voltage Rating - DC",
+"ValueId":"32 V",
+"ValueText":"32 V"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"320294",
+"ValueText":"Blade, ATO/ATC"
+},
+{
+"ParameterId":37,
+"ParameterText":"Color",
+"ValueId":"351068",
+"ValueText":"Gray"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"32977",
+"ValueText":"0.752\" L x 0.201\" W x 0.484\" H (19.10mm x 5.10mm x 12.30mm)"
+}
+]
+},
+{
+"ManufacturerProductNumber":"0ATO002.V",
+"Manufacturer":{
+"Id":18,
+"Name":"Littelfuse Inc."
+},
+"Description":{
+"ProductDescription":"FUSE AUTO 2A 32VAC/VDC BLADE"
+},
+"QuantityAvailable":1464,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":1.35,
+"Category":{
+"CategoryId":9,
+"Name":"Circuit Protection",
+"ChildCategories":[
+{
+"CategoryId":139,
+"Name":"Fuses",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"F5039-ND",
+"PackageType":{
+"Id":3,
+"Name":"Bulk"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":1.35,
+"TotalPrice":1.35
+},
+{
+"BreakQuantity":5,
+"UnitPrice":1.122,
+"TotalPrice":5.61
+},
+{
+"BreakQuantity":10,
+"UnitPrice":1.035,
+"TotalPrice":10.35
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.8584,
+"TotalPrice":42.92
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.792,
+"TotalPrice":79.2
+},
+{
+"BreakQuantity":250,
+"UnitPrice":0.7118,
+"TotalPrice":177.95
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.65632,
+"TotalPrice":328.16
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.60491,
+"TotalPrice":604.91
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.5405,
+"TotalPrice":2702.5
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":1464,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"395953",
+"ValueText":"Requires Holder"
+},
+{
+"ParameterId":49,
+"ParameterText":"Fuse Type",
+"ValueId":"316912",
+"ValueText":"Automotive"
+},
+{
+"ParameterId":2088,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"2 A",
+"ValueText":"2 A"
+},
+{
+"ParameterId":2143,
+"ParameterText":"Voltage Rating - AC",
+"ValueId":"32 V",
+"ValueText":"32 V"
+},
+{
+"ParameterId":2144,
+"ParameterText":"Voltage Rating - DC",
+"ValueId":"32 V",
+"ValueText":"32 V"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"320294",
+"ValueText":"Blade, ATO/ATC"
+},
+{
+"ParameterId":37,
+"ParameterText":"Color",
+"ValueId":"351068",
+"ValueText":"Gray"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"32916",
+"ValueText":"0.750\" L x 0.200\" W x 0.480\" H (19.05mm x 5.08mm x 12.19mm)"
+}
+]
+},
+{
+"ManufacturerProductNumber":"BK/ATC-2",
+"Manufacturer":{
+"Id":2041,
+"Name":"Eaton - Bussmann Electrical Division"
+},
+"Description":{
+"ProductDescription":"FUSE AUTO 2A 32VDC BLADE ATO/ATC"
+},
+"QuantityAvailable":201,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":2.51,
+"Category":{
+"CategoryId":9,
+"Name":"Circuit Protection",
+"ChildCategories":[
+{
+"CategoryId":139,
+"Name":"Fuses",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"283-3026-ND",
+"PackageType":{
+"Id":3,
+"Name":"Bulk"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":2.51,
+"TotalPrice":2.51
+},
+{
+"BreakQuantity":5,
+"UnitPrice":2.078,
+"TotalPrice":10.39
+},
+{
+"BreakQuantity":10,
+"UnitPrice":1.918,
+"TotalPrice":19.18
+},
+{
+"BreakQuantity":50,
+"UnitPrice":1.5914,
+"TotalPrice":79.57
+},
+{
+"BreakQuantity":100,
+"UnitPrice":1.468,
+"TotalPrice":146.8
+},
+{
+"BreakQuantity":250,
+"UnitPrice":1.31904,
+"TotalPrice":329.76
+},
+{
+"BreakQuantity":500,
+"UnitPrice":1.21594,
+"TotalPrice":607.97
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":1.1204,
+"TotalPrice":1120.4
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.9243,
+"TotalPrice":4621.5
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":201,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"395953",
+"ValueText":"Requires Holder"
+},
+{
+"ParameterId":49,
+"ParameterText":"Fuse Type",
+"ValueId":"316912",
+"ValueText":"Automotive"
+},
+{
+"ParameterId":2088,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"2 A",
+"ValueText":"2 A"
+},
+{
+"ParameterId":2144,
+"ParameterText":"Voltage Rating - DC",
+"ValueId":"32 V",
+"ValueText":"32 V"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"320294",
+"ValueText":"Blade, ATO/ATC"
+},
+{
+"ParameterId":37,
+"ParameterText":"Color",
+"ValueId":"351068",
+"ValueText":"Gray"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"33216",
+"ValueText":"0.760\" L x 0.207\" W x 0.492\" H (19.30mm x 5.25mm x 12.50mm)"
+}
+]
+}
+],
+"unfiltered":[
+{
+"ManufacturerProductNumber":"ERB-RD2R00X",
+"Manufacturer":{
+"Id":10,
+"Name":"Panasonic Industry"
+},
+"Description":{
+"ProductDescription":"FUSE BOARD MOUNT 2A 32VDC 0402"
+},
+"QuantityAvailable":2127,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.32,
+"Category":{
+"CategoryId":9,
+"Name":"Circuit Protection",
+"ChildCategories":[
+{
+"CategoryId":139,
+"Name":"Fuses",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"P15123TR-ND",
+"PackageType":{
+"Id":1,
+"Name":"Tape & Reel (TR)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":10000,
+"UnitPrice":0.10741,
+"TotalPrice":1074.1
+},
+{
+"BreakQuantity":20000,
+"UnitPrice":0.09886,
+"TotalPrice":1977.2
+},
+{
+"BreakQuantity":30000,
+"UnitPrice":0.09475,
+"TotalPrice":2842.5
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":0,
+"MinimumOrderQuantity":10000,
+"StandardPackage":10000,
+"DigiReelFee":0.0
+},
+{
+"DigiKeyProductNumber":"P15123CT-ND",
+"PackageType":{
+"Id":2,
+"Name":"Cut Tape (CT)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.32,
+"TotalPrice":0.32
+},
+{
+"BreakQuantity":5,
+"UnitPrice":0.268,
+"TotalPrice":1.34
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.248,
+"TotalPrice":2.48
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.2054,
+"TotalPrice":10.27
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.1896,
+"TotalPrice":18.96
+},
+{
+"BreakQuantity":250,
+"UnitPrice":0.17044,
+"TotalPrice":42.61
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.15726,
+"TotalPrice":78.63
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.14504,
+"TotalPrice":145.04
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.12005,
+"TotalPrice":600.25
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":2127,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+},
+{
+"DigiKeyProductNumber":"P15123DKR-ND",
+"PackageType":{
+"Id":243,
+"Name":"Digi-Reel®"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.32,
+"TotalPrice":0.32
+},
+{
+"BreakQuantity":5,
+"UnitPrice":0.268,
+"TotalPrice":1.34
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.248,
+"TotalPrice":2.48
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.2054,
+"TotalPrice":10.27
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.1896,
+"TotalPrice":18.96
+},
+{
+"BreakQuantity":250,
+"UnitPrice":0.17044,
+"TotalPrice":42.61
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.15726,
+"TotalPrice":78.63
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.14504,
+"TotalPrice":145.04
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.12005,
+"TotalPrice":600.25
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":2127,
+"MinimumOrderQuantity":1,
+"StandardPackage":1,
+"DigiReelFee":7.0
+}
+],
+"Parameters":[
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"409393",
+"ValueText":"Surface Mount"
+},
+{
+"ParameterId":49,
+"ParameterText":"Fuse Type",
+"ValueId":"321582",
+"ValueText":"Board Mount (Cartridge Style Excluded)"
+},
+{
+"ParameterId":2088,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"2 A",
+"ValueText":"2 A"
+},
+{
+"ParameterId":2144,
+"ParameterText":"Voltage Rating - DC",
+"ValueId":"32 V",
+"ValueText":"32 V"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"39158",
+"ValueText":"0402 (1005 Metric)"
+},
+{
+"ParameterId":37,
+"ParameterText":"Color",
+"ValueId":"1",
+"ValueText":"-"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"6484",
+"ValueText":"0.040\" L x 0.020\" W x 0.019\" H (1.00mm x 0.50mm x 0.48mm)"
+}
+]
+},
+{
+"ManufacturerProductNumber":"ERB-RE2R00V",
+"Manufacturer":{
+"Id":10,
+"Name":"Panasonic Industry"
+},
+"Description":{
+"ProductDescription":"FUSE BOARD MOUNT 2A 32VDC 0603"
+},
+"QuantityAvailable":65444,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.38,
+"Category":{
+"CategoryId":9,
+"Name":"Circuit Protection",
+"ChildCategories":[
+{
+"CategoryId":139,
+"Name":"Fuses",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"P15126TR-ND",
+"PackageType":{
+"Id":1,
+"Name":"Tape & Reel (TR)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":5000,
+"UnitPrice":0.13482,
+"TotalPrice":674.1
+},
+{
+"BreakQuantity":10000,
+"UnitPrice":0.12416,
+"TotalPrice":1241.6
+},
+{
+"BreakQuantity":15000,
+"UnitPrice":0.11829,
+"TotalPrice":1774.35
+},
+{
+"BreakQuantity":25000,
+"UnitPrice":0.11124,
+"TotalPrice":2781.0
+},
+{
+"BreakQuantity":35000,
+"UnitPrice":0.11051,
+"TotalPrice":3867.85
+},
+{
+"BreakQuantity":50000,
+"UnitPrice":0.10425,
+"TotalPrice":5212.5
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":65000,
+"MinimumOrderQuantity":5000,
+"StandardPackage":5000,
+"DigiReelFee":0.0
+},
+{
+"DigiKeyProductNumber":"P15126CT-ND",
+"PackageType":{
+"Id":2,
+"Name":"Cut Tape (CT)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.38,
+"TotalPrice":0.38
+},
+{
+"BreakQuantity":5,
+"UnitPrice":0.31,
+"TotalPrice":1.55
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.286,
+"TotalPrice":2.86
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.2376,
+"TotalPrice":11.88
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.2192,
+"TotalPrice":21.92
+},
+{
+"BreakQuantity":250,
+"UnitPrice":0.19708,
+"TotalPrice":49.27
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.18182,
+"TotalPrice":90.91
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.16769,
+"TotalPrice":167.69
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":65444,
+"MinimumOrderQuantity":1,
+"StandardPackage":1,
+"DigiReelFee":0.0
+},
+{
+"DigiKeyProductNumber":"P15126DKR-ND",
+"PackageType":{
+"Id":243,
+"Name":"Digi-Reel®"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.38,
+"TotalPrice":0.38
+},
+{
+"BreakQuantity":5,
+"UnitPrice":0.31,
+"TotalPrice":1.55
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.286,
+"TotalPrice":2.86
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.2376,
+"TotalPrice":11.88
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.2192,
+"TotalPrice":21.92
+},
+{
+"BreakQuantity":250,
+"UnitPrice":0.19708,
+"TotalPrice":49.27
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.18182,
+"TotalPrice":90.91
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.16769,
+"TotalPrice":167.69
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":65444,
+"MinimumOrderQuantity":1,
+"StandardPackage":1,
+"DigiReelFee":7.0
+}
+],
+"Parameters":[
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"409393",
+"ValueText":"Surface Mount"
+},
+{
+"ParameterId":49,
+"ParameterText":"Fuse Type",
+"ValueId":"321582",
+"ValueText":"Board Mount (Cartridge Style Excluded)"
+},
+{
+"ParameterId":2088,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"2 A",
+"ValueText":"2 A"
+},
+{
+"ParameterId":2144,
+"ParameterText":"Voltage Rating - DC",
+"ValueId":"32 V",
+"ValueText":"32 V"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"39246",
+"ValueText":"0603 (1608 Metric)"
+},
+{
+"ParameterId":37,
+"ParameterText":"Color",
+"ValueId":"1",
+"ValueText":"-"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"7825",
+"ValueText":"0.063\" L x 0.032\" W x 0.025\" H (1.60mm x 0.81mm x 0.63mm)"
+}
+]
+},
+{
+"ManufacturerProductNumber":"MF-NSMF200-2",
+"Manufacturer":{
+"Id":118,
+"Name":"Bourns Inc."
+},
+"Description":{
+"ProductDescription":"PTC RESET FUSE 6V 2A 1206"
+},
+"QuantityAvailable":51870,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.38,
+"Category":{
+"CategoryId":9,
+"Name":"Circuit Protection",
+"ChildCategories":[
+{
+"CategoryId":150,
+"Name":"PTC Resettable Fuses",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"MF-NSMF200-2TR-ND",
+"PackageType":{
+"Id":1,
+"Name":"Tape & Reel (TR)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":3000,
+"UnitPrice":0.14903,
+"TotalPrice":447.09
+},
+{
+"BreakQuantity":6000,
+"UnitPrice":0.1373,
+"TotalPrice":823.8
+},
+{
+"BreakQuantity":9000,
+"UnitPrice":0.13084,
+"TotalPrice":1177.56
+},
+{
+"BreakQuantity":15000,
+"UnitPrice":0.12309,
+"TotalPrice":1846.35
+},
+{
+"BreakQuantity":21000,
+"UnitPrice":0.11821,
+"TotalPrice":2482.41
+},
+{
+"BreakQuantity":30000,
+"UnitPrice":0.11322,
+"TotalPrice":3396.6
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":51000,
+"MinimumOrderQuantity":3000,
+"StandardPackage":3000,
+"DigiReelFee":0.0
+},
+{
+"DigiKeyProductNumber":"MF-NSMF200-2CT-ND",
+"PackageType":{
+"Id":2,
+"Name":"Cut Tape (CT)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.38,
+"TotalPrice":0.38
+},
+{
+"BreakQuantity":5,
+"UnitPrice":0.314,
+"TotalPrice":1.57
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.29,
+"TotalPrice":2.9
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.2402,
+"TotalPrice":12.01
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.2216,
+"TotalPrice":22.16
+},
+{
+"BreakQuantity":250,
+"UnitPrice":0.19928,
+"TotalPrice":49.82
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.18382,
+"TotalPrice":91.91
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.16954,
+"TotalPrice":169.54
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":51870,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+},
+{
+"DigiKeyProductNumber":"MF-NSMF200-2DKR-ND",
+"PackageType":{
+"Id":243,
+"Name":"Digi-Reel®"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.38,
+"TotalPrice":0.38
+},
+{
+"BreakQuantity":5,
+"UnitPrice":0.314,
+"TotalPrice":1.57
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.29,
+"TotalPrice":2.9
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.2402,
+"TotalPrice":12.01
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.2216,
+"TotalPrice":22.16
+},
+{
+"BreakQuantity":250,
+"UnitPrice":0.19928,
+"TotalPrice":49.82
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.18382,
+"TotalPrice":91.91
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.16954,
+"TotalPrice":169.54
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":51870,
+"MinimumOrderQuantity":1,
+"StandardPackage":1,
+"DigiReelFee":7.0
+}
+],
+"Parameters":[
+{
+"ParameterId":686,
+"ParameterText":"Voltage - Max",
+"ValueId":"267452",
+"ValueText":"6V"
+},
+{
+"ParameterId":682,
+"ParameterText":"Current - Hold (Ih) (Max)",
+"ValueId":"2 A",
+"ValueText":"2 A"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"409393",
+"ValueText":"Surface Mount"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"83721",
+"ValueText":"1206 (3216 Metric), Concave"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"11016",
+"ValueText":"0.128\" L x 0.063\" W (3.25mm x 1.60mm)"
+},
+{
+"ParameterId":508,
+"ParameterText":"Lead Spacing",
+"ValueId":"1",
+"ValueText":"-"
+}
+]
+},
+{
+"ManufacturerProductNumber":"0ZCG0200AF2B",
+"Manufacturer":{
+"Id":507,
+"Name":"Bel Fuse Inc."
+},
+"Description":{
+"ProductDescription":"PTC RESET FUSE 16V 2A 1812"
+},
+"QuantityAvailable":132853,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.39,
+"Category":{
+"CategoryId":9,
+"Name":"Circuit Protection",
+"ChildCategories":[
+{
+"CategoryId":150,
+"Name":"PTC Resettable Fuses",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"5923-0ZCG0200AF2BTR-ND",
+"PackageType":{
+"Id":1,
+"Name":"Tape & Reel (TR)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1500,
+"UnitPrice":0.17621,
+"TotalPrice":264.315
+},
+{
+"BreakQuantity":3000,
+"UnitPrice":0.16241,
+"TotalPrice":487.23
+},
+{
+"BreakQuantity":4500,
+"UnitPrice":0.15482,
+"TotalPrice":696.69
+},
+{
+"BreakQuantity":7500,
+"UnitPrice":0.14571,
+"TotalPrice":1092.825
+},
+{
+"BreakQuantity":10500,
+"UnitPrice":0.13998,
+"TotalPrice":1469.79
+},
+{
+"BreakQuantity":15000,
+"UnitPrice":0.13413,
+"TotalPrice":2011.95
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":132000,
+"MinimumOrderQuantity":1500,
+"StandardPackage":1500,
+"DigiReelFee":0.0
+},
+{
+"DigiKeyProductNumber":"5923-0ZCG0200AF2BCT-ND",
+"PackageType":{
+"Id":2,
+"Name":"Cut Tape (CT)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.39,
+"TotalPrice":0.39
+},
+{
+"BreakQuantity":5,
+"UnitPrice":0.322,
+"TotalPrice":1.61
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.298,
+"TotalPrice":2.98
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.247,
+"TotalPrice":12.35
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.2279,
+"TotalPrice":22.79
+},
+{
+"BreakQuantity":250,
+"UnitPrice":0.20488,
+"TotalPrice":51.22
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.189,
+"TotalPrice":94.5
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":132853,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+},
+{
+"DigiKeyProductNumber":"5923-0ZCG0200AF2BDKR-ND",
+"PackageType":{
+"Id":243,
+"Name":"Digi-Reel®"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.39,
+"TotalPrice":0.39
+},
+{
+"BreakQuantity":5,
+"UnitPrice":0.322,
+"TotalPrice":1.61
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.298,
+"TotalPrice":2.98
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.247,
+"TotalPrice":12.35
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.2279,
+"TotalPrice":22.79
+},
+{
+"BreakQuantity":250,
+"UnitPrice":0.20488,
+"TotalPrice":51.22
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.189,
+"TotalPrice":94.5
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":132853,
+"MinimumOrderQuantity":1,
+"StandardPackage":1,
+"DigiReelFee":7.0
+}
+],
+"Parameters":[
+{
+"ParameterId":686,
+"ParameterText":"Voltage - Max",
+"ValueId":"108742",
+"ValueText":"16V"
+},
+{
+"ParameterId":682,
+"ParameterText":"Current - Hold (Ih) (Max)",
+"ValueId":"2 A",
+"ValueText":"2 A"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"409393",
+"ValueText":"Surface Mount"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"114792",
+"ValueText":"1812 (4532 Metric), Concave"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"13026",
+"ValueText":"0.179\" L x 0.128\" W (4.55mm x 3.24mm)"
+},
+{
+"ParameterId":508,
+"ParameterText":"Lead Spacing",
+"ValueId":"1",
+"ValueText":"-"
+}
+]
+}
+]
+}

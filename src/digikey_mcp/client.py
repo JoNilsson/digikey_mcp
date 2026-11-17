@@ -423,11 +423,18 @@ class DigiKeyClient:
         marketplace_filter: str | None = None,
         tariff_filter: str | None = None,
         minimum_quantity_available: int | None = None,
+        parameter_category_id: int | str | None = None,
+        parameter_filters: Mapping[int | str, Iterable[str]] | None = None,
         sort_field: str | None = None,
         sort_order: str = "Ascending",
         includes: str | Iterable[str] | None = None,
     ) -> dict:
-        """POST /search/keyword. Filters map onto KeywordRequest.FilterOptionsRequest."""
+        """POST /search/keyword. Filters map onto KeywordRequest.FilterOptionsRequest.
+
+        `parameter_category_id` (a leaf category) with `parameter_filters` ({parameter id: value
+        ids}) narrows by product parameters. With the category alone the response lists the
+        selectable parameter values under FilterOptions.ParametricFilters.
+        """
         if not keywords or not keywords.strip():
             raise ValueError("keywords must not be empty")
         if not 1 <= limit <= 50:
@@ -451,6 +458,15 @@ class DigiKeyClient:
             filters["TariffFilter"] = tariff_filter
         if minimum_quantity_available is not None:
             filters["MinimumQuantityAvailable"] = minimum_quantity_available
+        if parameter_category_id is not None:
+            request: dict[str, Any] = {"CategoryFilter": {"Id": str(parameter_category_id)}}
+            if parameter_filters:
+                request["ParameterFilters"] = [
+                    {"ParameterId": int(pid), "FilterValues": [{"Id": str(v)} for v in values]}
+                    for pid, values in parameter_filters.items()
+                    if values
+                ]
+            filters["ParameterFilterRequest"] = request
         if filters:
             body["FilterOptionsRequest"] = filters
         if sort_field:

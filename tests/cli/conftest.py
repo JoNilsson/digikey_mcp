@@ -26,6 +26,7 @@ BOM = (
     + "R9,1,1k,R_0603_1608Metric,,\n"
 )
 CAP_PN = "1276-1000-1-ND"
+CAP_PARAMS = {"Capacitance": "0.1 µF", "Package / Case": "0603 (1608 Metric)"}
 
 
 def lm358():
@@ -37,10 +38,12 @@ def capacitors():
     return [
         product("CL10B104KB8NNNC", "Samsung Electro-Mechanics",
                 [variation(CAP_PN, "Cut Tape (CT)", breaks=((1, 0.1), (100, 0.02)))],
-                desc="CAP CER 0.1UF 50V X7R 0603", params={"Package / Case": "0603"}, category="Capacitors"),
+                desc="CAP CER 0.1UF 50V X7R 0603", params=CAP_PARAMS, category="Capacitors",
+                children=("Ceramic Capacitors",), category_id=60),
         product("GRM188R71H104KA93D", "Murata Electronics",
                 [variation("490-1532-1-ND", "Cut Tape (CT)", breaks=((1, 0.1), (100, 0.03)))],
-                desc="CAP CER 0.1UF 50V X7R 0603", params={"Package / Case": "0603"}, category="Capacitors"),
+                desc="CAP CER 0.1UF 50V X7R 0603", params=CAP_PARAMS, category="Capacitors",
+                children=("Ceramic Capacitors",), category_id=60),
     ]
 
 
@@ -50,8 +53,7 @@ def fake(monkeypatch):
     client = FakeDigiKey()
     caps = capacitors()
     client.add(resistor_10k(), lm358(), *caps)
-    client.searches["100nF 0603 capacitor"] = caps
-    client.searches["1kohm 0603 resistor"] = []
+    client.catalog[60] = caps
     monkeypatch.setattr(common, "get_client", lambda: client)
     return client
 

@@ -24,6 +24,9 @@ BOM = (
 )
 
 
+CAP_PARAMS = {"Capacitance": "0.1 µF", "Package / Case": "0603 (1608 Metric)"}
+
+
 def lm358(**kw):
     return product("LM358DR", "Texas Instruments", [variation("296-1014-1-ND", "Cut Tape (CT)", breaks=((1, 0.5), (100, 0.3)))], **kw)
 
@@ -32,10 +35,12 @@ def cap_candidates():
     return [
         product("CL10B104KB8NNNC", "Samsung Electro-Mechanics",
                 [variation("1276-1000-1-ND", "Cut Tape (CT)", breaks=((1, 0.1), (100, 0.02)))],
-                desc="CAP CER 0.1UF 50V X7R 0603", params={"Package / Case": "0603"}, category="Capacitors"),
+                desc="CAP CER 0.1UF 50V X7R 0603", params=CAP_PARAMS, category="Capacitors",
+                children=("Ceramic Capacitors",), category_id=60),
         product("GRM188R71H104KA93D", "Murata Electronics",
                 [variation("490-1532-1-ND", "Cut Tape (CT)", breaks=((1, 0.1), (100, 0.03)))],
-                desc="CAP CER 0.1UF 50V X7R 0603", params={"Package / Case": "0603"}, category="Capacitors"),
+                desc="CAP CER 0.1UF 50V X7R 0603", params=CAP_PARAMS, category="Capacitors",
+                children=("Ceramic Capacitors",), category_id=60),
     ]
 
 
@@ -43,8 +48,7 @@ def cap_candidates():
 def loaded(fake):
     caps = cap_candidates()
     fake.add(resistor_10k(), lm358(), *caps)
-    fake.searches["100nF 0603 capacitor"] = caps
-    fake.searches["1kohm 0603 resistor"] = []
+    fake.catalog[60] = caps
     return fake
 
 
@@ -59,12 +63,14 @@ def by_id(bom, line_id):
 def test_resolve_bom_statuses_and_totals(loaded, env):
     bom = run(env, boards=2, session_id="proj")
     assert bom.complete and bom.session_id == "proj"
-    assert by_id(bom, 1).status == "resolved" and by_id(bom, 1).needed_qty == 6 + 2  # 6 base, +2 minimum overage
+    assert by_id(bom, 1).status == "resolved" and by_id(bom, 1).needed_qty == 6  # a named part gets no spares
     assert by_id(bom, 2).status == "resolved" and by_id(bom, 2).needed_qty == 2
     assert by_id(bom, 3).status == "needs_decision" and by_id(bom, 3).needed_qty == 4 + 2
     assert by_id(bom, 4).status == "needs_decision" and by_id(bom, 4).candidates == []
     assert bom.counts == {"resolved": 2, "needs_decision": 2}
-    assert bom.estimated_total == pytest.approx(8 * 0.10 + 2 * 0.5)  # 8 resistors are below the 10-piece break
+    # 6 resistors cost 0.60 at 0.10 each; the 10-piece break (10 x 0.043) is cheaper, so 10 are ordered
+    assert by_id(bom, 1).order_qty == 10
+    assert bom.estimated_total == pytest.approx(10 * 0.043 + 2 * 0.5)
     d = bom.to_dict()
     assert d["ready_for_cart"] is False and len(d["blocking"]) == 2
     assert all(ln.reason for ln in bom.lines)
@@ -98,7 +104,7 @@ def test_cart_items_exclude_blocking_lines(loaded, env):
     summary = session.cart_items_summary("proj", cache_dir=env["cache_dir"])
     assert summary["item_count"] == 2 and summary["ready_for_cart"] is False
     assert {b["line_id"] for b in summary["blocking"]} == {3, 4}
-    assert summary["items"][0] == {"digikey_part_number": "311-10.0KHRCT-ND", "quantity": 5, "customer_reference": "R1,R2,R3"}
+    assert summary["items"][0] == {"digikey_part_number": "311-10.0KHRCT-ND", "quantity": 3, "customer_reference": "R1,R2,R3"}
 
 
 def test_decision_with_unknown_line_or_dnp(loaded, env):

@@ -1,0 +1,1078 @@
+{
+"case":"c470u_radial",
+"line_id":7,
+"category_id":58,
+"keywords":"capacitor",
+"needed":3,
+"filters":{
+"2049":[
+"470 µF"
+],
+"2079":[
+"50 V",
+"55 V",
+"60 V",
+"63 V",
+"70 V",
+"75 V",
+"80 V",
+"100 V",
+"125 V",
+"150 V",
+"160 V",
+"180 V",
+"200 V",
+"210 V",
+"220 V",
+"250 V",
+"300 V",
+"315 V",
+"350 V",
+"360 V",
+"375 V",
+"385 V",
+"400 V",
+"410 V",
+"420 V",
+"450 V",
+"475 V",
+"500 V",
+"525 V",
+"550 V",
+"570 V",
+"575 V",
+"600 V",
+"630 V",
+"650 V",
+"700 V",
+"800 V"
+],
+"16":[
+"392320",
+"392321",
+"392322",
+"392323",
+"392324",
+"575388",
+"575389",
+"392326",
+"392328",
+"392329",
+"392330",
+"392331",
+"392332",
+"478600"
+],
+"69":[
+"411897"
+]
+},
+"why_not":"",
+"facets":[
+{
+"ParameterId":2049,
+"ParameterName":"Capacitance",
+"FilterValues":[
+{
+"ValueId":"470 µF",
+"ValueName":"470 µF"
+},
+{
+"ValueId":"0.1 µF",
+"ValueName":"0.1 µF"
+},
+{
+"ValueId":"0.22 µF",
+"ValueName":"0.22 µF"
+},
+{
+"ValueId":"0.33 µF",
+"ValueName":"0.33 µF"
+},
+{
+"ValueId":"0.47 µF",
+"ValueName":"0.47 µF"
+}
+]
+},
+{
+"ParameterId":3,
+"ParameterName":"Tolerance",
+"FilterValues":[
+{
+"ValueId":"734846",
+"ValueName":"-40%, 0%"
+},
+{
+"ValueId":"155604",
+"ValueName":"-25%, +20%"
+},
+{
+"ValueId":"64562",
+"ValueName":"-10%, +100%"
+},
+{
+"ValueId":"64563",
+"ValueName":"-10%, +150%"
+}
+]
+},
+{
+"ParameterId":2079,
+"ParameterName":"Voltage - Rated",
+"FilterValues":[
+{
+"ValueId":"50 V",
+"ValueName":"50 V"
+},
+{
+"ValueId":"55 V",
+"ValueName":"55 V"
+},
+{
+"ValueId":"60 V",
+"ValueName":"60 V"
+},
+{
+"ValueId":"63 V",
+"ValueName":"63 V"
+},
+{
+"ValueId":"70 V",
+"ValueName":"70 V"
+},
+{
+"ValueId":"75 V",
+"ValueName":"75 V"
+},
+{
+"ValueId":"80 V",
+"ValueName":"80 V"
+},
+{
+"ValueId":"100 V",
+"ValueName":"100 V"
+},
+{
+"ValueId":"125 V",
+"ValueName":"125 V"
+},
+{
+"ValueId":"150 V",
+"ValueName":"150 V"
+},
+{
+"ValueId":"160 V",
+"ValueName":"160 V"
+},
+{
+"ValueId":"180 V",
+"ValueName":"180 V"
+},
+{
+"ValueId":"200 V",
+"ValueName":"200 V"
+},
+{
+"ValueId":"210 V",
+"ValueName":"210 V"
+},
+{
+"ValueId":"220 V",
+"ValueName":"220 V"
+},
+{
+"ValueId":"250 V",
+"ValueName":"250 V"
+},
+{
+"ValueId":"300 V",
+"ValueName":"300 V"
+},
+{
+"ValueId":"315 V",
+"ValueName":"315 V"
+},
+{
+"ValueId":"350 V",
+"ValueName":"350 V"
+},
+{
+"ValueId":"360 V",
+"ValueName":"360 V"
+},
+{
+"ValueId":"375 V",
+"ValueName":"375 V"
+},
+{
+"ValueId":"385 V",
+"ValueName":"385 V"
+},
+{
+"ValueId":"400 V",
+"ValueName":"400 V"
+},
+{
+"ValueId":"410 V",
+"ValueName":"410 V"
+},
+{
+"ValueId":"420 V",
+"ValueName":"420 V"
+},
+{
+"ValueId":"450 V",
+"ValueName":"450 V"
+},
+{
+"ValueId":"475 V",
+"ValueName":"475 V"
+},
+{
+"ValueId":"500 V",
+"ValueName":"500 V"
+},
+{
+"ValueId":"525 V",
+"ValueName":"525 V"
+},
+{
+"ValueId":"550 V",
+"ValueName":"550 V"
+},
+{
+"ValueId":"570 V",
+"ValueName":"570 V"
+},
+{
+"ValueId":"575 V",
+"ValueName":"575 V"
+},
+{
+"ValueId":"600 V",
+"ValueName":"600 V"
+},
+{
+"ValueId":"630 V",
+"ValueName":"630 V"
+},
+{
+"ValueId":"650 V",
+"ValueName":"650 V"
+},
+{
+"ValueId":"700 V",
+"ValueName":"700 V"
+},
+{
+"ValueId":"800 V",
+"ValueName":"800 V"
+},
+{
+"ValueId":"2 V",
+"ValueName":"2 V"
+},
+{
+"ValueId":"3 V",
+"ValueName":"3 V"
+},
+{
+"ValueId":"4 V",
+"ValueName":"4 V"
+},
+{
+"ValueId":"6 V",
+"ValueName":"6 V"
+}
+]
+},
+{
+"ParameterId":69,
+"ParameterName":"Mounting Type",
+"FilterValues":[
+{
+"ValueId":"411897",
+"ValueName":"Through Hole"
+},
+{
+"ValueId":"1",
+"ValueName":"-"
+},
+{
+"ValueId":"329230",
+"ValueName":"Chassis Mount"
+},
+{
+"ValueId":"329314",
+"ValueName":"Chassis, Stud Mount"
+},
+{
+"ValueId":"457001",
+"ValueName":"Clamp Mount"
+}
+]
+},
+{
+"ParameterId":16,
+"ParameterName":"Package / Case",
+"FilterValues":[
+{
+"ValueId":"392320",
+"ValueName":"Radial, Can"
+},
+{
+"ValueId":"392321",
+"ValueName":"Radial, Can - 3 Lead"
+},
+{
+"ValueId":"392322",
+"ValueName":"Radial, Can - 4 Lead"
+},
+{
+"ValueId":"392323",
+"ValueName":"Radial, Can - 5 Lead"
+},
+{
+"ValueId":"392324",
+"ValueName":"Radial, Can - Mounting Ring - 4 Lead"
+},
+{
+"ValueId":"575388",
+"ValueName":"Radial, Can - Press-Fit - 4 Lead"
+},
+{
+"ValueId":"575389",
+"ValueName":"Radial, Can - Press-Fit - 5 Lead"
+},
+{
+"ValueId":"392326",
+"ValueName":"Radial, Can - Screw Terminals"
+},
+{
+"ValueId":"392328",
+"ValueName":"Radial, Can - Snap-In"
+},
+{
+"ValueId":"392329",
+"ValueName":"Radial, Can - Snap-In - 3 Lead"
+},
+{
+"ValueId":"392330",
+"ValueName":"Radial, Can - Snap-In - 4 Lead"
+},
+{
+"ValueId":"392331",
+"ValueName":"Radial, Can - Snap-In - 5 Lead"
+},
+{
+"ValueId":"392332",
+"ValueName":"Radial, Can - Solder Lug"
+},
+{
+"ValueId":"478600",
+"ValueName":"Radial, Can - Solder Lug - 3 Lead"
+},
+{
+"ValueId":"166804",
+"ValueName":"2917 (7343 Metric)"
+},
+{
+"ValueId":"1",
+"ValueName":"-"
+},
+{
+"ValueId":"317190",
+"ValueName":"Axial"
+},
+{
+"ValueId":"317217",
+"ValueName":"Axial, Can"
+}
+]
+}
+],
+"products":[
+{
+"ManufacturerProductNumber":"UVR1H471MHD1TO",
+"Manufacturer":{
+"Id":493,
+"Name":"Nichicon"
+},
+"Description":{
+"ProductDescription":"CAP ALUM 470UF 20% 50V RADIAL TH"
+},
+"QuantityAvailable":34344,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.9,
+"Category":{
+"CategoryId":3,
+"Name":"Capacitors",
+"ChildCategories":[
+{
+"CategoryId":58,
+"Name":"Aluminum Electrolytic Capacitors",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"493-12789-1-ND",
+"PackageType":{
+"Id":2,
+"Name":"Cut Tape (CT)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.9,
+"TotalPrice":0.9
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.566,
+"TotalPrice":5.66
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.427,
+"TotalPrice":21.35
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.3829,
+"TotalPrice":38.29
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":844,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+},
+{
+"DigiKeyProductNumber":"493-12789-3-ND",
+"PackageType":{
+"Id":4,
+"Name":"Tape & Box (TB)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":500,
+"UnitPrice":0.32514,
+"TotalPrice":162.57
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.29968,
+"TotalPrice":299.68
+},
+{
+"BreakQuantity":1500,
+"UnitPrice":0.28683,
+"TotalPrice":430.245
+},
+{
+"BreakQuantity":2500,
+"UnitPrice":0.2725,
+"TotalPrice":681.25
+},
+{
+"BreakQuantity":3500,
+"UnitPrice":0.26407,
+"TotalPrice":924.245
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.25593,
+"TotalPrice":1279.65
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":33500,
+"MinimumOrderQuantity":500,
+"StandardPackage":500,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":2049,
+"ParameterText":"Capacitance",
+"ValueId":"470 µF",
+"ValueText":"470 µF"
+},
+{
+"ParameterId":3,
+"ParameterText":"Tolerance",
+"ValueId":"1900",
+"ValueText":"±20%"
+},
+{
+"ParameterId":2079,
+"ParameterText":"Voltage - Rated",
+"ValueId":"50 V",
+"ValueText":"50 V"
+},
+{
+"ParameterId":508,
+"ParameterText":"Lead Spacing",
+"ValueId":"13741",
+"ValueText":"0.197\" (5.00mm)"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"24783",
+"ValueText":"0.492\" Dia (12.50mm)"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"411897",
+"ValueText":"Through Hole"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"392320",
+"ValueText":"Radial, Can"
+}
+]
+},
+{
+"ManufacturerProductNumber":"ECA-1HM471",
+"Manufacturer":{
+"Id":10,
+"Name":"Panasonic Industry"
+},
+"Description":{
+"ProductDescription":"CAP ALUM 470UF 20% 50V RADIAL TH"
+},
+"QuantityAvailable":12772,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.91,
+"Category":{
+"CategoryId":3,
+"Name":"Capacitors",
+"ChildCategories":[
+{
+"CategoryId":58,
+"Name":"Aluminum Electrolytic Capacitors",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"P5185-ND",
+"PackageType":{
+"Id":3,
+"Name":"Bulk"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.91,
+"TotalPrice":0.91
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.573,
+"TotalPrice":5.73
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.4326,
+"TotalPrice":21.63
+},
+{
+"BreakQuantity":200,
+"UnitPrice":0.35125,
+"TotalPrice":70.25
+},
+{
+"BreakQuantity":600,
+"UnitPrice":0.30498,
+"TotalPrice":182.988
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.28765,
+"TotalPrice":287.65
+},
+{
+"BreakQuantity":2600,
+"UnitPrice":0.26094,
+"TotalPrice":678.444
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.24622,
+"TotalPrice":1231.1
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":12772,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":2049,
+"ParameterText":"Capacitance",
+"ValueId":"470 µF",
+"ValueText":"470 µF"
+},
+{
+"ParameterId":3,
+"ParameterText":"Tolerance",
+"ValueId":"1900",
+"ValueText":"±20%"
+},
+{
+"ParameterId":2079,
+"ParameterText":"Voltage - Rated",
+"ValueId":"50 V",
+"ValueText":"50 V"
+},
+{
+"ParameterId":508,
+"ParameterText":"Lead Spacing",
+"ValueId":"13741",
+"ValueText":"0.197\" (5.00mm)"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"21491",
+"ValueText":"0.394\" Dia (10.00mm)"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"411897",
+"ValueText":"Through Hole"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"392320",
+"ValueText":"Radial, Can"
+}
+]
+},
+{
+"ManufacturerProductNumber":"ECA-1HHG471",
+"Manufacturer":{
+"Id":10,
+"Name":"Panasonic Industry"
+},
+"Description":{
+"ProductDescription":"CAP ALUM 470UF 20% 50V RADIAL TH"
+},
+"QuantityAvailable":22955,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":1.12,
+"Category":{
+"CategoryId":3,
+"Name":"Capacitors",
+"ChildCategories":[
+{
+"CategoryId":58,
+"Name":"Aluminum Electrolytic Capacitors",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"P5574-ND",
+"PackageType":{
+"Id":3,
+"Name":"Bulk"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":1.12,
+"TotalPrice":1.12
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.717,
+"TotalPrice":7.17
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.5464,
+"TotalPrice":27.32
+},
+{
+"BreakQuantity":200,
+"UnitPrice":0.4473,
+"TotalPrice":89.46
+},
+{
+"BreakQuantity":600,
+"UnitPrice":0.39095,
+"TotalPrice":234.57
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.36986,
+"TotalPrice":369.86
+},
+{
+"BreakQuantity":2600,
+"UnitPrice":0.33737,
+"TotalPrice":877.162
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.31946,
+"TotalPrice":1597.3
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":22955,
+"MinimumOrderQuantity":1,
+"StandardPackage":200,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":2049,
+"ParameterText":"Capacitance",
+"ValueId":"470 µF",
+"ValueText":"470 µF"
+},
+{
+"ParameterId":3,
+"ParameterText":"Tolerance",
+"ValueId":"1900",
+"ValueText":"±20%"
+},
+{
+"ParameterId":2079,
+"ParameterText":"Voltage - Rated",
+"ValueId":"50 V",
+"ValueText":"50 V"
+},
+{
+"ParameterId":508,
+"ParameterText":"Lead Spacing",
+"ValueId":"13741",
+"ValueText":"0.197\" (5.00mm)"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"21491",
+"ValueText":"0.394\" Dia (10.00mm)"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"411897",
+"ValueText":"Through Hole"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"392320",
+"ValueText":"Radial, Can"
+}
+]
+},
+{
+"ManufacturerProductNumber":"ECA-1HHG471B",
+"Manufacturer":{
+"Id":10,
+"Name":"Panasonic Industry"
+},
+"Description":{
+"ProductDescription":"CAP ALUM 470UF 20% 50V RADIAL TH"
+},
+"QuantityAvailable":922,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":1.18,
+"Category":{
+"CategoryId":3,
+"Name":"Capacitors",
+"ChildCategories":[
+{
+"CategoryId":58,
+"Name":"Aluminum Electrolytic Capacitors",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"P19527CT-ND",
+"PackageType":{
+"Id":2,
+"Name":"Cut Tape (CT)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":1.18,
+"TotalPrice":1.18
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.751,
+"TotalPrice":7.51
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.5718,
+"TotalPrice":28.59
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.5153,
+"TotalPrice":51.53
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":422,
+"MinimumOrderQuantity":1,
+"StandardPackage":1,
+"DigiReelFee":0.0
+},
+{
+"DigiKeyProductNumber":"P19527TB-ND",
+"PackageType":{
+"Id":4,
+"Name":"Tape & Box (TB)"
+},
+"StandardPricing":[
+{
+"BreakQuantity":500,
+"UnitPrice":0.42316,
+"TotalPrice":211.58
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.39205,
+"TotalPrice":392.05
+},
+{
+"BreakQuantity":1500,
+"UnitPrice":0.37636,
+"TotalPrice":564.54
+},
+{
+"BreakQuantity":2500,
+"UnitPrice":0.35886,
+"TotalPrice":897.15
+},
+{
+"BreakQuantity":3500,
+"UnitPrice":0.34857,
+"TotalPrice":1219.995
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.33863,
+"TotalPrice":1693.15
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":500,
+"MinimumOrderQuantity":500,
+"StandardPackage":500,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":2049,
+"ParameterText":"Capacitance",
+"ValueId":"470 µF",
+"ValueText":"470 µF"
+},
+{
+"ParameterId":3,
+"ParameterText":"Tolerance",
+"ValueId":"1900",
+"ValueText":"±20%"
+},
+{
+"ParameterId":2079,
+"ParameterText":"Voltage - Rated",
+"ValueId":"50 V",
+"ValueText":"50 V"
+},
+{
+"ParameterId":508,
+"ParameterText":"Lead Spacing",
+"ValueId":"13741",
+"ValueText":"0.197\" (5.00mm)"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"21491",
+"ValueText":"0.394\" Dia (10.00mm)"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"411897",
+"ValueText":"Through Hole"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"392320",
+"ValueText":"Radial, Can"
+}
+]
+},
+{
+"ManufacturerProductNumber":"50ZLJ470M10X20",
+"Manufacturer":{
+"Id":1189,
+"Name":"Rubycon"
+},
+"Description":{
+"ProductDescription":"CAP ALUM 470UF 20% 50V RADIAL TH"
+},
+"QuantityAvailable":15595,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":1.19,
+"Category":{
+"CategoryId":3,
+"Name":"Capacitors",
+"ChildCategories":[
+{
+"CategoryId":58,
+"Name":"Aluminum Electrolytic Capacitors",
+"ChildCategories":[]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"1189-50ZLJ470M10X20-ND",
+"PackageType":{
+"Id":3,
+"Name":"Bulk"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":1.19,
+"TotalPrice":1.19
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.76,
+"TotalPrice":7.6
+},
+{
+"BreakQuantity":50,
+"UnitPrice":0.579,
+"TotalPrice":28.95
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.5216,
+"TotalPrice":52.16
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.4229,
+"TotalPrice":211.45
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.39178,
+"TotalPrice":391.78
+},
+{
+"BreakQuantity":3000,
+"UnitPrice":0.35286,
+"TotalPrice":1058.58
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.33832,
+"TotalPrice":1691.6
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":15595,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":2049,
+"ParameterText":"Capacitance",
+"ValueId":"470 µF",
+"ValueText":"470 µF"
+},
+{
+"ParameterId":3,
+"ParameterText":"Tolerance",
+"ValueId":"1900",
+"ValueText":"±20%"
+},
+{
+"ParameterId":2079,
+"ParameterText":"Voltage - Rated",
+"ValueId":"50 V",
+"ValueText":"50 V"
+},
+{
+"ParameterId":508,
+"ParameterText":"Lead Spacing",
+"ValueId":"13741",
+"ValueText":"0.197\" (5.00mm)"
+},
+{
+"ParameterId":46,
+"ParameterText":"Size / Dimension",
+"ValueId":"21491",
+"ValueText":"0.394\" Dia (10.00mm)"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"411897",
+"ValueText":"Through Hole"
+},
+{
+"ParameterId":16,
+"ParameterText":"Package / Case",
+"ValueId":"392320",
+"ValueText":"Radial, Can"
+}
+]
+}
+],
+"unfiltered":[]
+}

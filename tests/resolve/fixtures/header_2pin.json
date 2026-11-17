@@ -1,0 +1,825 @@
+{
+"case":"header_2pin",
+"line_id":30,
+"category_id":314,
+"keywords":"pin header",
+"needed":7,
+"filters":{
+"28":[
+"353507",
+"353522",
+"353523",
+"353526",
+"353527",
+"353555"
+],
+"88":[
+"121326"
+],
+"90":[
+"39665"
+],
+"1790":[
+"9726"
+],
+"69":[
+"411897"
+]
+},
+"why_not":"",
+"facets":[
+{
+"ParameterId":28,
+"ParameterName":"Connector Type",
+"FilterValues":[
+{
+"ValueId":"353507",
+"ValueName":"Header"
+},
+{
+"ValueId":"353522",
+"ValueName":"Header, Bottom Entry"
+},
+{
+"ValueId":"353523",
+"ValueName":"Header, Breakaway"
+},
+{
+"ValueId":"353526",
+"ValueName":"Header, Cuttable"
+},
+{
+"ValueId":"353527",
+"ValueName":"Header, Elevated"
+},
+{
+"ValueId":"353555",
+"ValueName":"Header, Stackable (2)"
+},
+{
+"ValueId":"1",
+"ValueName":"-"
+},
+{
+"ValueId":"358887",
+"ValueName":"Insert"
+},
+{
+"ValueId":"359751",
+"ValueName":"Interposer"
+},
+{
+"ValueId":"387800",
+"ValueName":"Plug"
+}
+]
+},
+{
+"ParameterId":1790,
+"ParameterName":"Pitch - Mating",
+"FilterValues":[
+{
+"ValueId":"9726",
+"ValueName":"0.100\" (2.54mm)"
+},
+{
+"ValueId":"5212",
+"ValueName":"0.020\" (0.50mm)"
+},
+{
+"ValueId":"5376",
+"ValueName":"0.024\" (0.60mm)"
+},
+{
+"ValueId":"5450",
+"ValueName":"0.025\" (0.64mm)"
+},
+{
+"ValueId":"5744",
+"ValueName":"0.030\" (0.75mm)"
+}
+]
+},
+{
+"ParameterId":88,
+"ParameterName":"Number of Positions",
+"FilterValues":[
+{
+"ValueId":"121326",
+"ValueName":"2"
+},
+{
+"ValueId":"39665",
+"ValueName":"1"
+},
+{
+"ValueId":"121369",
+"ValueName":"2 (Coax)"
+},
+{
+"ValueId":"121386",
+"ValueName":"2 (Power)"
+},
+{
+"ValueId":"169295",
+"ValueName":"3"
+}
+]
+},
+{
+"ParameterId":90,
+"ParameterName":"Number of Rows",
+"FilterValues":[
+{
+"ValueId":"39665",
+"ValueName":"1"
+},
+{
+"ValueId":"121326",
+"ValueName":"2"
+},
+{
+"ValueId":"169295",
+"ValueName":"3"
+},
+{
+"ValueId":"203167",
+"ValueName":"4"
+},
+{
+"ValueId":"229001",
+"ValueName":"5"
+}
+]
+},
+{
+"ParameterId":69,
+"ParameterName":"Mounting Type",
+"FilterValues":[
+{
+"ValueId":"411897",
+"ValueName":"Through Hole"
+},
+{
+"ValueId":"1",
+"ValueName":"-"
+},
+{
+"ValueId":"321141",
+"ValueName":"Board Edge, Cutout; Surface Mount, Right Angle"
+},
+{
+"ValueId":"321150",
+"ValueName":"Board Edge, Straddle Mount"
+},
+{
+"ValueId":"321155",
+"ValueName":"Board Edge, Through Hole, Right Angle"
+}
+]
+}
+],
+"products":[
+{
+"ManufacturerProductNumber":"M20-9990246",
+"Manufacturer":{
+"Id":952,
+"Name":"Harwin Inc."
+},
+"Description":{
+"ProductDescription":"CONN HEADER VERT 2POS 2.54MM"
+},
+"QuantityAvailable":131339,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.1,
+"Category":{
+"CategoryId":20,
+"Name":"Connectors, Interconnects",
+"ChildCategories":[
+{
+"CategoryId":2027,
+"Name":"Rectangular Connectors",
+"ChildCategories":[
+{
+"CategoryId":314,
+"Name":"Headers, Male Pins",
+"ChildCategories":[]
+}
+]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"952-2262-ND",
+"PackageType":{
+"Id":3,
+"Name":"Bulk"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.1,
+"TotalPrice":0.1
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.08,
+"TotalPrice":0.8
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.0682,
+"TotalPrice":6.82
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.0609,
+"TotalPrice":30.45
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.05798,
+"TotalPrice":57.98
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.05174,
+"TotalPrice":258.7
+},
+{
+"BreakQuantity":10000,
+"UnitPrice":0.04927,
+"TotalPrice":492.7
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":131339,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":28,
+"ParameterText":"Connector Type",
+"ValueId":"353526",
+"ValueText":"Header, Cuttable"
+},
+{
+"ParameterId":1790,
+"ParameterText":"Pitch - Mating",
+"ValueId":"9726",
+"ValueText":"0.100\" (2.54mm)"
+},
+{
+"ParameterId":88,
+"ParameterText":"Number of Positions",
+"ValueId":"121326",
+"ValueText":"2"
+},
+{
+"ParameterId":90,
+"ParameterText":"Number of Rows",
+"ValueId":"39665",
+"ValueText":"1"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"411897",
+"ValueText":"Through Hole"
+},
+{
+"ParameterId":66,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"201653",
+"ValueText":"3A per Contact"
+},
+{
+"ParameterId":63,
+"ParameterText":"Voltage Rating",
+"ValueId":"1",
+"ValueText":"-"
+}
+]
+},
+{
+"ManufacturerProductNumber":"PRPC002SAAN-RC",
+"Manufacturer":{
+"Id":35,
+"Name":"Sullins Connector Solutions"
+},
+"Description":{
+"ProductDescription":"CONN HEADER VERT 2POS 2.54MM"
+},
+"QuantityAvailable":109991,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.1,
+"Category":{
+"CategoryId":20,
+"Name":"Connectors, Interconnects",
+"ChildCategories":[
+{
+"CategoryId":2027,
+"Name":"Rectangular Connectors",
+"ChildCategories":[
+{
+"CategoryId":314,
+"Name":"Headers, Male Pins",
+"ChildCategories":[]
+}
+]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"35-PRPC002SAAN-RC-ND",
+"PackageType":{
+"Id":3,
+"Name":"Bulk"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.1,
+"TotalPrice":0.1
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.034,
+"TotalPrice":0.34
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.0287,
+"TotalPrice":2.87
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.0256,
+"TotalPrice":12.8
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.02437,
+"TotalPrice":24.37
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.02175,
+"TotalPrice":108.75
+},
+{
+"BreakQuantity":10000,
+"UnitPrice":0.02071,
+"TotalPrice":207.1
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":109991,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":28,
+"ParameterText":"Connector Type",
+"ValueId":"353523",
+"ValueText":"Header, Breakaway"
+},
+{
+"ParameterId":1790,
+"ParameterText":"Pitch - Mating",
+"ValueId":"9726",
+"ValueText":"0.100\" (2.54mm)"
+},
+{
+"ParameterId":88,
+"ParameterText":"Number of Positions",
+"ValueId":"121326",
+"ValueText":"2"
+},
+{
+"ParameterId":90,
+"ParameterText":"Number of Rows",
+"ValueId":"39665",
+"ValueText":"1"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"411897",
+"ValueText":"Through Hole"
+},
+{
+"ParameterId":66,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"201653",
+"ValueText":"3A per Contact"
+},
+{
+"ParameterId":63,
+"ParameterText":"Voltage Rating",
+"ValueId":"1",
+"ValueText":"-"
+}
+]
+},
+{
+"ManufacturerProductNumber":"PREC002SAAN-RC",
+"Manufacturer":{
+"Id":35,
+"Name":"Sullins Connector Solutions"
+},
+"Description":{
+"ProductDescription":"CONN HEADER VERT 2POS 2.54MM"
+},
+"QuantityAvailable":47606,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.1,
+"Category":{
+"CategoryId":20,
+"Name":"Connectors, Interconnects",
+"ChildCategories":[
+{
+"CategoryId":2027,
+"Name":"Rectangular Connectors",
+"ChildCategories":[
+{
+"CategoryId":314,
+"Name":"Headers, Male Pins",
+"ChildCategories":[]
+}
+]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"35-PREC002SAAN-RC-ND",
+"PackageType":{
+"Id":3,
+"Name":"Bulk"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.1,
+"TotalPrice":0.1
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.029,
+"TotalPrice":0.29
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.0242,
+"TotalPrice":2.42
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.0216,
+"TotalPrice":10.8
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.02057,
+"TotalPrice":20.57
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.01835,
+"TotalPrice":91.75
+},
+{
+"BreakQuantity":10000,
+"UnitPrice":0.01748,
+"TotalPrice":174.8
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":47606,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":28,
+"ParameterText":"Connector Type",
+"ValueId":"353523",
+"ValueText":"Header, Breakaway"
+},
+{
+"ParameterId":1790,
+"ParameterText":"Pitch - Mating",
+"ValueId":"9726",
+"ValueText":"0.100\" (2.54mm)"
+},
+{
+"ParameterId":88,
+"ParameterText":"Number of Positions",
+"ValueId":"121326",
+"ValueText":"2"
+},
+{
+"ParameterId":90,
+"ParameterText":"Number of Rows",
+"ValueId":"39665",
+"ValueText":"1"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"411897",
+"ValueText":"Through Hole"
+},
+{
+"ParameterId":66,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"201653",
+"ValueText":"3A per Contact"
+},
+{
+"ParameterId":63,
+"ParameterText":"Voltage Rating",
+"ValueId":"1",
+"ValueText":"-"
+}
+]
+},
+{
+"ManufacturerProductNumber":"TSW-102-07-F-S",
+"Manufacturer":{
+"Id":612,
+"Name":"Samtec Inc."
+},
+"Description":{
+"ProductDescription":"CONN HEADER VERT 2POS 2.54MM"
+},
+"QuantityAvailable":71493,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.11,
+"Category":{
+"CategoryId":20,
+"Name":"Connectors, Interconnects",
+"ChildCategories":[
+{
+"CategoryId":2027,
+"Name":"Rectangular Connectors",
+"ChildCategories":[
+{
+"CategoryId":314,
+"Name":"Headers, Male Pins",
+"ChildCategories":[]
+}
+]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"SAM10844-ND",
+"PackageType":{
+"Id":62,
+"Name":"Bag"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.11,
+"TotalPrice":0.11
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.092,
+"TotalPrice":46.0
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.077,
+"TotalPrice":77.0
+},
+{
+"BreakQuantity":2500,
+"UnitPrice":0.066,
+"TotalPrice":165.0
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.055,
+"TotalPrice":275.0
+},
+{
+"BreakQuantity":10000,
+"UnitPrice":0.048,
+"TotalPrice":480.0
+},
+{
+"BreakQuantity":25000,
+"UnitPrice":0.042,
+"TotalPrice":1050.0
+},
+{
+"BreakQuantity":50000,
+"UnitPrice":0.03625,
+"TotalPrice":1812.5
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":71493,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":28,
+"ParameterText":"Connector Type",
+"ValueId":"353526",
+"ValueText":"Header, Cuttable"
+},
+{
+"ParameterId":1790,
+"ParameterText":"Pitch - Mating",
+"ValueId":"9726",
+"ValueText":"0.100\" (2.54mm)"
+},
+{
+"ParameterId":88,
+"ParameterText":"Number of Positions",
+"ValueId":"121326",
+"ValueText":"2"
+},
+{
+"ParameterId":90,
+"ParameterText":"Number of Rows",
+"ValueId":"39665",
+"ValueText":"1"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"411897",
+"ValueText":"Through Hole"
+},
+{
+"ParameterId":66,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"1",
+"ValueText":"-"
+},
+{
+"ParameterId":63,
+"ParameterText":"Voltage Rating",
+"ValueId":"1",
+"ValueText":"-"
+}
+]
+},
+{
+"ManufacturerProductNumber":"TSW-102-07-L-S",
+"Manufacturer":{
+"Id":612,
+"Name":"Samtec Inc."
+},
+"Description":{
+"ProductDescription":"CONN HEADER VERT 2POS 2.54MM"
+},
+"QuantityAvailable":7190,
+"ProductStatus":{
+"Id":0,
+"Status":"Active"
+},
+"UnitPrice":0.11,
+"Category":{
+"CategoryId":20,
+"Name":"Connectors, Interconnects",
+"ChildCategories":[
+{
+"CategoryId":2027,
+"Name":"Rectangular Connectors",
+"ChildCategories":[
+{
+"CategoryId":314,
+"Name":"Headers, Male Pins",
+"ChildCategories":[]
+}
+]
+}
+]
+},
+"ProductVariations":[
+{
+"DigiKeyProductNumber":"612-TSW-102-07-L-S-ND",
+"PackageType":{
+"Id":3,
+"Name":"Bulk"
+},
+"StandardPricing":[
+{
+"BreakQuantity":1,
+"UnitPrice":0.11,
+"TotalPrice":0.11
+},
+{
+"BreakQuantity":10,
+"UnitPrice":0.094,
+"TotalPrice":0.94
+},
+{
+"BreakQuantity":100,
+"UnitPrice":0.0796,
+"TotalPrice":7.96
+},
+{
+"BreakQuantity":500,
+"UnitPrice":0.07102,
+"TotalPrice":35.51
+},
+{
+"BreakQuantity":1000,
+"UnitPrice":0.06763,
+"TotalPrice":67.63
+},
+{
+"BreakQuantity":5000,
+"UnitPrice":0.06036,
+"TotalPrice":301.8
+},
+{
+"BreakQuantity":10000,
+"UnitPrice":0.05748,
+"TotalPrice":574.8
+}
+],
+"MarketPlace":false,
+"QuantityAvailableforPackageType":7190,
+"MinimumOrderQuantity":1,
+"DigiReelFee":0.0
+}
+],
+"Parameters":[
+{
+"ParameterId":28,
+"ParameterText":"Connector Type",
+"ValueId":"353526",
+"ValueText":"Header, Cuttable"
+},
+{
+"ParameterId":1790,
+"ParameterText":"Pitch - Mating",
+"ValueId":"9726",
+"ValueText":"0.100\" (2.54mm)"
+},
+{
+"ParameterId":88,
+"ParameterText":"Number of Positions",
+"ValueId":"121326",
+"ValueText":"2"
+},
+{
+"ParameterId":90,
+"ParameterText":"Number of Rows",
+"ValueId":"39665",
+"ValueText":"1"
+},
+{
+"ParameterId":69,
+"ParameterText":"Mounting Type",
+"ValueId":"411897",
+"ValueText":"Through Hole"
+},
+{
+"ParameterId":66,
+"ParameterText":"Current Rating (Amps)",
+"ValueId":"1",
+"ValueText":"-"
+},
+{
+"ParameterId":63,
+"ParameterText":"Voltage Rating",
+"ValueId":"1",
+"ValueText":"-"
+}
+]
+}
+],
+"unfiltered":[]
+}

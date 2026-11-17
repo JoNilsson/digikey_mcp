@@ -35,12 +35,19 @@ For a step-by-step setup without Nix see [GETTING_STARTED.md](GETTING_STARTED.md
 2. Resolve: each line is resolved through the ladder DigiKey part number, then
    MPN with manufacturer, then MPN alone. Stock, status, marketplace sellers
    and packaging are checked, the cheapest valid packaging is chosen and the
-   quantity is boards times per-board quantity plus overage, rounded to the
-   minimum order quantity and reel multiples.
+   quantity is boards times per-board quantity plus spares (see
+   [Preferences](#preferences)), rounded to the minimum order quantity, reel
+   multiples and, when it lowers the total cost, the next price break.
 3. Generic lines (no MPN and no DigiKey number, for example `10k 0603 1%`) are
    never picked automatically. They always come back as `needs_decision` with
-   up to five ranked candidates. Ambiguous, unavailable and failed lines are
-   reported as blocking.
+   up to five ranked candidates. For resistors, capacitors, LEDs, ATO blade
+   and PTC fuses and pin headers the search uses DigiKey's parameter filters
+   and every candidate is checked against its own parameters (resistance,
+   capacitance, voltage rating, tolerance, package, current, colour, pitch and
+   positions); a candidate's `why` lists the verified values. A line with no
+   verified candidate returns none and the reason names the parameter that
+   could not be matched. Ambiguous, unavailable and failed lines are reported
+   as blocking.
 4. Decisions: `apply_decisions` maps a line id to a DigiKey part number
    (a candidate, a substitute or any part) or `skip`. The chosen part is
    verified like any other line. Decisions persist in the session and survive
@@ -310,13 +317,17 @@ elsewhere.
 
 ## Preferences
 
-`resolve_bom` takes `preferences_path`, a TOML file for overage per category,
+`resolve_bom` takes `preferences_path`, a TOML file for spares per category,
 allowed packaging, marketplace and obsolete handling, preferred manufacturers
 and keywords for generic lines, quota limits and cache lifetimes. Unknown
 sections or keys are rejected. The full key list is in
 [src/digikey_mcp/resolve/README.md](src/digikey_mcp/resolve/README.md).
 
 ```toml
+[overage]
+named_parts = false   # spares for lines that name an MPN or DigiKey part number
+price_limit = 1.00    # no spares above this unit price; 0 disables the limit
+
 [overage.resistor]
 percent = 10
 min_extra = 2
@@ -327,6 +338,26 @@ allowed = ["cut tape", "tape & reel"]
 [generic]
 preferred_manufacturers = ["Yageo", "Murata"]
 ```
+
+Spares added to the BOM quantity, by default:
+
+| Category | Percent | Minimum |
+| --- | --- | --- |
+| resistor | 10, rounded up | +2 |
+| capacitor | 10, rounded up | +2 |
+| LED | 10, rounded up | +1 |
+| every other category | 0 | 0 |
+
+| Rule | Default |
+| --- | --- |
+| Count above 10 | spares at most equal the BOM quantity |
+| Line names an MPN or DigiKey number | no spares |
+| Unit price above `price_limit` | no spares, the reason says so |
+| Price break | quantity raised only when the total cost falls |
+| Reason text | `need 45 + 5 spare = 50` |
+
+`named_parts = true` gives named parts the category spares. A price-break
+raise reads `raised to 100 for the price break (saves $0.28)`.
 
 ## Limitations
 
