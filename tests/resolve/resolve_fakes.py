@@ -31,7 +31,8 @@ def variation(pn, packaging, *, moq=1, std=0, stock=100000, breaks=((1, 0.1),), 
     return v
 
 
-def product(mpn, maker, variations, *, status="Active", stock=None, desc="", params=None, unit_price=None):
+def product(mpn, maker, variations, *, status="Active", stock=None, desc="", params=None, unit_price=None,
+            category="Resistors", children=()):
     if stock is None:
         stock = max((v["QuantityAvailableforPackageType"] for v in variations), default=0)
     return {
@@ -41,7 +42,8 @@ def product(mpn, maker, variations, *, status="Active", stock=None, desc="", par
         "QuantityAvailable": stock,
         "ProductStatus": {"Id": 0, "Status": status},
         "UnitPrice": unit_price,
-        "Category": {"CategoryId": 1, "Name": "Resistors"},
+        "Category": {"CategoryId": 1, "Name": category,
+                     "ChildCategories": [{"CategoryId": 2, "Name": c} for c in children]},
         "ProductVariations": variations,
         "Parameters": [{"ParameterText": k, "ValueText": v} for k, v in (params or {}).items()],
     }

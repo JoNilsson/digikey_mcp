@@ -126,9 +126,16 @@ class LineResolver:
     def _generic(self, rl: ResolvedLine) -> ResolvedLine:
         rl.source = "search"
         rl.status = NEEDS_DECISION
-        rl.candidates = generic.candidates(self.gw, self.prefs, rl)
         line = rl.line
         what = " ".join(x for x in (line.value, line.package or line.footprint, line.category_hint) if x)
+        if not generic.has_search_basis(rl):
+            rl.candidates = []
+            rl.reason = (
+                f"generic line ({what}): no value, rating, package or description to search on; "
+                "supply them or an MPN or DigiKey part number"
+            )
+            return rl
+        rl.candidates = generic.candidates(self.gw, self.prefs, rl)
         if rl.candidates:
             rl.reason = f"generic line ({what}): pick one of {len(rl.candidates)} candidate(s) or skip"
         else:

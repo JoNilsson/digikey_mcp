@@ -24,9 +24,53 @@ _CATEGORY_WORDS = {
 }
 
 
+#: hint -> (DigiKey category names that qualify, words one of which must also appear in the category
+#: path or the description when the category is broader than the hint)
+_CATEGORY_RULES: dict[str, tuple[tuple[str, ...], tuple[str, ...]]] = {
+    "resistor": (("resistors",), ()),
+    "capacitor": (("capacitors",), ()),
+    "inductor": (("inductors",), ()),
+    "connector": (("connectors",), ()),
+    "ic": (("integrated circuits",), ()),
+    "diode": (("discrete semiconductor",), ("diode", "rectifier")),
+    "led": (("optoelectronics",), ("led", "light emitting")),
+    "transistor": (("discrete semiconductor",), ("transistor", "mosfet", "bjt")),
+    "crystal": (("crystals",), ()),
+    "switch": (("switches",), ()),
+    "fuse": (("circuit protection",), ("fuse",)),
+}
+
+
+def in_hinted_category(hint: str, p: ProductInfo) -> bool:
+    """True when the product sits in a DigiKey category that fits the hint.
+
+    A hint with a rule never passes a product whose category is unknown. Hints without one
+    (other, fiducial, ...) are not filtered.
+    """
+    rule = _CATEGORY_RULES.get(hint)
+    if rule is None:
+        return True
+    names, words = rule
+    chain = [p.category, *p.category_path]
+    if not any(n in c.casefold() for c in chain for n in names):
+        return False
+    if not words:
+        return True
+    text = " ".join([*chain, p.description]).casefold()
+    return any(w in text for w in words)
+
+
+def has_search_basis(rl: ResolvedLine) -> bool:
+    """A generic line needs a value, a package or footprint, or a description to search on."""
+    line = rl.line
+    return bool(line.value or line.package or line.footprint or line.description)
+
+
 def build_keywords(rl: ResolvedLine, prefs: Preferences) -> str:
     """Search words from value, package, category and preferences (unverified request shape)."""
     line = rl.line
+    if not has_search_basis(rl):
+        return ""
     words: list[str] = []
     if line.value:
         words.append(line.value)
@@ -39,7 +83,7 @@ def build_keywords(rl: ResolvedLine, prefs: Preferences) -> str:
     if noun:
         words.append(noun)
     words.extend(prefs.generic_keywords.get(line.category_hint, []))
-    if not words and line.description:
+    if not line.value and line.description:
         words.append(line.description)
     seen: set[str] = set()
     return " ".join(w for w in words if not (w.casefold() in seen or seen.add(w.casefold())))
@@ -97,6 +141,8 @@ def candidates(gw: Gateway, prefs: Preferences, rl: ResolvedLine) -> list[Candid
         return []
     pairs: list[tuple[ProductInfo, Candidate]] = []
     for p in found:
+        if not in_hinted_category(rl.line.category_hint, p):
+            continue
         if p.marketplace and not prefs.allow_marketplace:
             continue
         options = packaging.compare(p.packagings, rl.needed_qty, prefs, p.stock)

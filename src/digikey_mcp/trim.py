@@ -85,6 +85,16 @@ def trim_parameters(params: Any, select: Parameters = True) -> dict[str, str]:
     return out
 
 
+def _category_path(category: Any) -> list[str]:
+    """Names of the child categories below a v4 Category, parent before child."""
+    names: list[str] = []
+    for child in _list(category.get("ChildCategories")) if isinstance(category, Mapping) else []:
+        if isinstance(child, Mapping):
+            names += [str(child["Name"])] if child.get("Name") else []
+            names += _category_path(child)
+    return names
+
+
 def trim_product(product: Mapping[str, Any], parameters: Parameters = True) -> dict[str, Any]:
     """Trim a v4 Product (from keyword search or productdetails)."""
     description = product.get("Description") or {}
@@ -113,7 +123,8 @@ def trim_product(product: Mapping[str, Any], parameters: Parameters = True) -> d
             "datasheet_url": product.get("DatasheetUrl"),
             "product_url": product.get("ProductUrl"),
             "photo_url": product.get("PhotoUrl"),
-            "category": _compact({"id": category.get("CategoryId"), "name": category.get("Name")}),
+            "category": _compact({"id": category.get("CategoryId"), "name": category.get("Name"),
+                                   "path": _category_path(category)}),
             "series": _name(product.get("Series")),
             "rohs_status": classifications.get("RohsStatus"),
             "reach_status": classifications.get("ReachStatus"),

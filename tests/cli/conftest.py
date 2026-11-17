@@ -37,10 +37,10 @@ def capacitors():
     return [
         product("CL10B104KB8NNNC", "Samsung Electro-Mechanics",
                 [variation(CAP_PN, "Cut Tape (CT)", breaks=((1, 0.1), (100, 0.02)))],
-                desc="CAP CER 0.1UF 50V X7R 0603", params={"Package / Case": "0603"}),
+                desc="CAP CER 0.1UF 50V X7R 0603", params={"Package / Case": "0603"}, category="Capacitors"),
         product("GRM188R71H104KA93D", "Murata Electronics",
                 [variation("490-1532-1-ND", "Cut Tape (CT)", breaks=((1, 0.1), (100, 0.03)))],
-                desc="CAP CER 0.1UF 50V X7R 0603", params={"Package / Case": "0603"}),
+                desc="CAP CER 0.1UF 50V X7R 0603", params={"Package / Case": "0603"}, category="Capacitors"),
     ]
 
 
