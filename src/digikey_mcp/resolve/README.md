@@ -81,13 +81,18 @@ order and are listed under `blocking`.
 
 ## Quantity
 
-`needed = boards x per-board quantity + overage`. Overage is
-`max(ceil(base x percent / 100), min_extra)`, capped by `max_extra`, per
-category. Defaults: resistor and capacitor 10 % (at least 2), LED 10 % (at
-least 1), inductor, diode and transistor 5 % (at least 1), everything else 0.
-The order quantity is then raised to the packaging's minimum and rounded up to
-its multiple: tape and reel orders are multiples of the reel size, other
-packagings use their minimum order quantity only.
+`needed = boards x per-board quantity + spares`. Spares are
+`max(ceil(base x percent / 100), min_extra)` per category, capped by
+`max_extra`, and never more than the base quantity above 10 parts. Defaults:
+resistor and capacitor 10 % (at least 2), LED 10 % (at least 1), everything
+else 0. A line that names an MPN or DigiKey part number gets no spares unless
+`[overage] named_parts = true`. When the unit price at the order quantity is
+above `[overage] price_limit` (default 1.00) the spares are dropped and the
+reason says so. The order quantity is then raised to the packaging's minimum
+and rounded up to its multiple (tape and reel orders are multiples of the reel
+size, other packagings use their minimum only), and to a larger price break
+only when that lowers the total cost. The reason shows the arithmetic, for
+example `need 45 + 5 spare = 50, raised to 100 for the price break (saves $0.28)`.
 
 ## Packaging
 
@@ -157,6 +162,10 @@ A 403 or 429 from DigiKey stops the run and holds all calls off for 10 minutes.
 TOML file passed as `preferences_path`; unknown sections or keys are rejected.
 
 ```toml
+[overage]
+named_parts = false   # spares for lines that name an MPN or DigiKey part number
+price_limit = 1.00    # no spares above this unit price; 0 disables the limit
+
 [overage.resistor]
 percent = 10
 min_extra = 2

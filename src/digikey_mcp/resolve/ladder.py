@@ -199,7 +199,12 @@ class LineResolver:
         if product.marketplace:
             rl.flags.append("MARKETPLACE")
         packagings = self._ensure_packagings(rl, product, pn)
-        options = packaging.compare(packagings, rl.needed_qty, prefs, product.stock)
+        options, spares = packaging.compare_with_spares(packagings, rl.base_qty, rl.overage, prefs, product.stock)
+        no_spares = ""
+        if spares != rl.overage:
+            top = packaging.best(options) or options[0]
+            no_spares = f"; no spares, unit price {_money(top.unit_price)} is above the {_money(prefs.spare_price_limit)} limit"
+            rl.overage, rl.needed_qty = spares, rl.base_qty + spares
         rl.break_even = packaging.break_evens(packagings)
         if prefs.thorough:
             options = self._thorough(rl, product, pn, options)
@@ -231,15 +236,20 @@ class LineResolver:
         rl.status = RESOLVED
         rl.dk_pn, rl.packaging, rl.order_qty = chosen.dk_pn, chosen.packaging or chosen.kind, chosen.order_qty
         rl.unit_price, rl.total_cost = chosen.unit_price, chosen.total_cost
-        spare = chosen.order_qty - rl.needed_qty
         text = (
             f"{rl.mpn} by {rl.manufacturer}: {chosen.order_qty} x {rl.packaging} {chosen.dk_pn} "
             f"at {_money(chosen.unit_price)} = {_money(chosen.total_cost)}"
         )
+        need = f"need {rl.base_qty}"
         if rl.overage:
-            text += f" (need {rl.base_qty} + {rl.overage} spare)"
-        if spare:
-            text += f", {spare} extra for MOQ/multiple"
+            need += f" + {rl.overage} spare = {rl.needed_qty}"
+        text += f" ({need})"
+        before_break = chosen.rounded_from or chosen.order_qty
+        if before_break > rl.needed_qty:
+            text += f", {before_break - rl.needed_qty} extra for MOQ/multiple"
+        if chosen.rounded_from:
+            text += f", raised to {chosen.order_qty} for the price break (saves {_money(chosen.saving)})"
+        text += no_spares
         others = [o for o in options if o is not chosen and o.valid]
         if others:
             text += f"; {len(others)} other packaging(s) costed"

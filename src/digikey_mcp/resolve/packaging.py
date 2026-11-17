@@ -42,11 +42,37 @@ def total_for(p: Packaging, qty: int) -> tuple[float | None, float | None]:
     return unit, round(unit * qty + p.fee, 4)
 
 
+def _break_quantity(p: Packaging, qty: int, stock: int) -> tuple[int, float | None, float | None]:
+    """(quantity, unit price, total) for `qty`, or for a larger price break when that costs less in total.
+
+    Only breaks the stock covers are considered; a tie keeps the smaller quantity.
+    """
+    unit, total = total_for(p, qty)
+    if total is None:
+        return qty, unit, total
+    best = (qty, unit, total)
+    for break_qty, _ in p.breaks:
+        if break_qty <= qty:
+            continue
+        rounded = order_quantity(p, break_qty)
+        if rounded > stock:
+            continue
+        b_unit, b_total = total_for(p, rounded)
+        if b_total is not None and b_total < best[2]:
+            best = (rounded, b_unit, b_total)
+    return best
+
+
 def option_for(p: Packaging, needed: int, prefs: Preferences, product_stock: int = 0) -> PackagingOption:
     qty = order_quantity(p, needed)
     moq, multiple = order_rules(p)
-    unit, total = total_for(p, qty)
     stock = p.stock if p.stock is not None else product_stock
+    rounded_from, saving = 0, 0.0
+    base_total = total_for(p, qty)[1]
+    qty, unit, total = _break_quantity(p, qty, stock)
+    if base_total is not None and total is not None and total < base_total:
+        rounded_from = order_quantity(p, needed)
+        saving = round(base_total - total, 4)
     leftover = qty - needed
     reason = ""
     if p.marketplace and not prefs.allow_marketplace:
@@ -71,6 +97,8 @@ def option_for(p: Packaging, needed: int, prefs: Preferences, product_stock: int
         stock=stock,
         valid=not reason,
         invalid_reason=reason,
+        rounded_from=rounded_from,
+        saving=saving,
     )
 
 
@@ -128,3 +156,18 @@ def break_evens(packagings: list[Packaging]) -> list[str]:
             if text:
                 out.append(text)
     return out
+
+
+def compare_with_spares(
+    packagings: list[Packaging], base: int, spares: int, prefs: Preferences, product_stock: int = 0
+) -> tuple[list[PackagingOption], int]:
+    """`compare` at base + spares; the spares are dropped when the unit price is above the limit.
+
+    Returns the options and the number of spares actually planned.
+    """
+    options = compare(packagings, base + spares, prefs, product_stock)
+    top = best(options)
+    limit = prefs.spare_price_limit
+    if spares and limit > 0 and top is not None and (top.unit_price or 0.0) > limit:
+        return compare(packagings, base, prefs, product_stock), 0
+    return options, spares

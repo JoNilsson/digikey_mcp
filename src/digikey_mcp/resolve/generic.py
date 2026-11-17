@@ -162,7 +162,7 @@ def _filters(spec: Spec, facets: list[Facet]) -> tuple[dict[int, list[str]], str
 
 
 def _candidate(p: ProductInfo, rl: ResolvedLine, prefs: Preferences) -> Candidate | None:
-    options = packaging.compare(p.packagings, rl.needed_qty, prefs, p.stock)
+    options, _ = packaging.compare_with_spares(p.packagings, rl.base_qty, rl.overage, prefs, p.stock)
     top = options[0] if options else None
     if top is None and p.unit_price is None:
         return None

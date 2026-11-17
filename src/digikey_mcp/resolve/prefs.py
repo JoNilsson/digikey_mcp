@@ -12,7 +12,10 @@ from ..ingest import BomLine
 
 @dataclass
 class Overage:
-    """Spare parts: `percent` of the base quantity rounded up, at least `min_extra`, at most `max_extra`."""
+    """Spare parts: `percent` of the base quantity rounded up, at least `min_extra`, at most `max_extra`.
+
+    Above 10 parts the spares never exceed the base quantity (a count at most doubles).
+    """
 
     percent: float = 0.0
     min_extra: int = 0
@@ -22,21 +25,16 @@ class Overage:
         extra = max(math.ceil(base * self.percent / 100.0 - 1e-9), self.min_extra)
         if self.max_extra is not None:
             extra = min(extra, self.max_extra)
+        if base > 10:
+            extra = min(extra, base)
         return max(extra, 0)
 
 
+#: spares only for cheap passives and LEDs; everything else is ordered at the BOM quantity
 DEFAULT_OVERAGE: dict[str, Overage] = {
     "resistor": Overage(10, 2),
     "capacitor": Overage(10, 2),
-    "inductor": Overage(5, 1),
     "led": Overage(10, 1),
-    "diode": Overage(5, 1),
-    "transistor": Overage(5, 1),
-    "ic": Overage(0, 0),
-    "connector": Overage(0, 0),
-    "crystal": Overage(0, 0),
-    "switch": Overage(0, 0),
-    "fuse": Overage(0, 0),
     "default": Overage(0, 0),
 }
 
@@ -53,6 +51,10 @@ _SECTIONS = {
 @dataclass
 class Preferences:
     overage: dict[str, Overage] = field(default_factory=lambda: dict(DEFAULT_OVERAGE))
+    #: spares for lines that name an MPN or DigiKey part number (default: none)
+    spares_for_named_parts: bool = False
+    #: no spares when the unit price at the order quantity is above this (0 disables the limit)
+    spare_price_limit: float = 1.0
     allow_marketplace: bool = False
     #: Obsolete / discontinued parts count as unavailable unless this is true.
     allow_obsolete: bool = False
@@ -83,6 +85,12 @@ class Preferences:
     def overage_for(self, category: str) -> Overage:
         return self.overage.get(category) or self.overage["default"]
 
+    def spares(self, line: BomLine, base: int) -> int:
+        """Spare parts for a line: none for a line that names its part unless `named_parts` is set."""
+        if not line.generic and not self.spares_for_named_parts:
+            return 0
+        return self.overage_for(line.category_hint).extra(base) if base else 0
+
     @classmethod
     def from_dict(cls, data: dict[str, Any] | None) -> Preferences:
         data = data or {}
@@ -90,7 +98,10 @@ class Preferences:
         if unknown:
             raise ValueError(f"unknown preference section(s): {', '.join(sorted(unknown))}")
         prefs = cls(raw=data)
-        for name, spec in (data.get("overage") or {}).items():
+        overage = dict(data.get("overage") or {})
+        prefs.spares_for_named_parts = bool(overage.pop("named_parts", prefs.spares_for_named_parts))
+        prefs.spare_price_limit = float(overage.pop("price_limit", prefs.spare_price_limit))
+        for name, spec in overage.items():
             if not isinstance(spec, dict) or set(spec) - {"percent", "min_extra", "max_extra"}:
                 raise ValueError(f"[overage.{name}] takes percent, min_extra, max_extra")
             base = prefs.overage.get(name, Overage())
@@ -150,7 +161,7 @@ def load_preferences(path: str | Path | None) -> Preferences:
 
 
 def needed_quantity(line: BomLine, boards: int, prefs: Preferences) -> tuple[int, int, int]:
-    """(base, overage, needed): boards x per-board quantity plus category overage."""
+    """(base, overage, needed): boards x per-board quantity plus the spares for its category."""
     base = max(int(line.quantity), 0) * max(int(boards), 1)
-    extra = prefs.overage_for(line.category_hint).extra(base) if base else 0
+    extra = prefs.spares(line, base)
     return base, extra, base + extra
