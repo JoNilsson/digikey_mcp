@@ -93,14 +93,35 @@ class Gateway:
         return adapter.parse_details(self.call("product_details", pn=pn))
 
     def search(
-        self, keywords: str, limit: int = 10, *, in_stock: bool = False, min_quantity: int | None = None
+        self,
+        keywords: str,
+        limit: int = 10,
+        *,
+        in_stock: bool = False,
+        min_quantity: int | None = None,
+        category_id: int | None = None,
+        filters: dict[int, list[str]] | None = None,
+        exclude_marketplace: bool = False,
     ) -> list[adapter.ProductInfo]:
+        """Keyword search; `category_id` with `filters` ({parameter id: value ids}) filters by parameters."""
         args: dict[str, Any] = {"keywords": keywords, "limit": limit}
         if in_stock:
             args["search_options"] = ["InStock"]
         if min_quantity:
             args["min_quantity"] = min_quantity
+        if exclude_marketplace:
+            args["marketplace_filter"] = "ExcludeMarketPlace"
+        if category_id is not None:
+            args["category_id"] = category_id
+            if filters:
+                args["filters"] = {str(k): sorted(v) for k, v in filters.items()}
         return adapter.parse_keyword(self.call("keyword_search", **args))
+
+    def facets(self, category_id: int, keywords: str, names: tuple[str, ...]) -> list[adapter.Facet]:
+        """The parameter values DigiKey offers for in-stock parts of a category matching the keywords."""
+        return adapter.parse_facets(
+            self.call("parametric_facets", category_id=category_id, keywords=keywords, names=list(names))
+        )
 
     def substitutions(self, pn: str) -> list[adapter.SubstituteInfo]:
         return adapter.parse_substitutes(self.call("substitutions", pn=pn))

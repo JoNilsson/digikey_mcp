@@ -340,6 +340,27 @@ def test_keyword_search_body(api, clock, sleeps):
     }
 
 
+def test_keyword_search_parameter_filters(api, clock, sleeps):
+    client = make(api, clock, sleeps)
+    client.keyword_search(
+        "resistor", parameter_category_id=52, parameter_filters={2085: ["10 kOhms"], 16: ["39329", "39328"], 3: []},
+        marketplace_filter="ExcludeMarketPlace",
+    )
+    client.keyword_search("resistor", parameter_category_id="52")
+    first, second = (json.loads(r.content)["FilterOptionsRequest"] for r in api.api_requests)
+    assert first == {
+        "MarketPlaceFilter": "ExcludeMarketPlace",
+        "ParameterFilterRequest": {
+            "CategoryFilter": {"Id": "52"},
+            "ParameterFilters": [
+                {"ParameterId": 2085, "FilterValues": [{"Id": "10 kOhms"}]},
+                {"ParameterId": 16, "FilterValues": [{"Id": "39329"}, {"Id": "39328"}]},
+            ],
+        },
+    }
+    assert second == {"ParameterFilterRequest": {"CategoryFilter": {"Id": "52"}}}
+
+
 def test_keyword_search_validates_input(api, clock, sleeps):
     client = make(api, clock, sleeps)
     with pytest.raises(ValueError):

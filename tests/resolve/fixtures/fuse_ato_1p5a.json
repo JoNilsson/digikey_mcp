@@ -1,0 +1,85 @@
+{
+"case":"fuse_ato_1p5a",
+"line_id":16,
+"category_id":139,
+"keywords":"ATO fuse",
+"needed":1,
+"filters":{},
+"why_not":"DigiKey lists no in-stock ATO blade fuse with Current Rating (Amps) 1.5A",
+"facets":[
+{
+"ParameterId":2088,
+"ParameterName":"Current Rating (Amps)",
+"FilterValues":[
+{
+"ValueId":"0.5 A",
+"ValueName":"0.5 A"
+},
+{
+"ValueId":"500 mA",
+"ValueName":"500 mA"
+},
+{
+"ValueId":"1 A",
+"ValueName":"1 A"
+},
+{
+"ValueId":"2 A",
+"ValueName":"2 A"
+}
+]
+},
+{
+"ParameterId":2143,
+"ParameterName":"Voltage Rating - AC",
+"FilterValues":[
+{
+"ValueId":"32 V",
+"ValueName":"32 V"
+},
+{
+"ValueId":"250 V",
+"ValueName":"250 V"
+}
+]
+},
+{
+"ParameterId":2144,
+"ParameterName":"Voltage Rating - DC",
+"FilterValues":[
+{
+"ValueId":"32 V",
+"ValueName":"32 V"
+},
+{
+"ValueId":"58 V",
+"ValueName":"58 V"
+},
+{
+"ValueId":"80 V",
+"ValueName":"80 V"
+}
+]
+},
+{
+"ParameterId":16,
+"ParameterName":"Package / Case",
+"FilterValues":[
+{
+"ValueId":"320294",
+"ValueName":"Blade, ATO/ATC"
+},
+{
+"ValueId":"320310",
+"ValueName":"Blade, Max"
+},
+{
+"ValueId":"320314",
+"ValueName":"Blade, Miniature"
+}
+]
+}
+],
+"products":[],
+"unfiltered":[]
+}

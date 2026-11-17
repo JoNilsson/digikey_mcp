@@ -187,3 +187,19 @@ def normalise_value(text: str | None, category_hint: str | None = None) -> Value
         info.unit = unit
         info.canonical = _format(value, unit)
     return info
+
+
+_MEASURE = re.compile(rf"^(?P<num>{_NUM})\s*(?P<pre>[mkMuµ]?)(?P<unit>[AV])(?:DC|AC)?$")
+_MEASURE_EXP = {"": 0, "m": -3, "u": -6, "µ": -6, "k": 3, "M": 6}
+
+
+def parse_measure(text: str | None) -> tuple[float, str] | None:
+    """Current or voltage text as (value in A or V, unit): "2 A", "200 mA", "32V", "0.5A".
+
+    Parameter values are DigiKey's own spelling; text that is not a plain measure gives None.
+    """
+    m = _MEASURE.match((text or "").strip())
+    if not m:
+        return None
+    exp = _MEASURE_EXP[m.group("pre")]
+    return float(Decimal(m.group("num").replace(",", ".")).scaleb(exp)), m.group("unit")

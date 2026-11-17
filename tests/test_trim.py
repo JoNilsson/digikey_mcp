@@ -279,3 +279,23 @@ def test_trim_keeps_the_child_category_path():
     product = {"Category": {"CategoryId": 7, "Name": "Circuit Protection",
                             "ChildCategories": [{"CategoryId": 8, "Name": "Fuses", "ChildCategories": []}]}}
     assert trim.trim_product(product)["category"] == {"id": 7, "name": "Circuit Protection", "path": ["Fuses"]}
+
+
+def test_trim_parametric_filters_keeps_the_selected_parameters():
+    response = {
+        "FilterOptions": {
+            "Manufacturers": [{"Id": 1, "Value": "Yageo"}],
+            "ParametricFilters": [
+                {"ParameterId": 2085, "ParameterName": "Resistance", "ParameterType": "UnitOfMeasure",
+                 "FilterValues": [{"ValueId": "10 kOhms", "ValueName": "10 kOhms", "ProductCount": 7}]},
+                {"ParameterId": 16, "ParameterName": "Package / Case",
+                 "FilterValues": [{"ValueId": "39329", "ValueName": "0805 (2012 Metric)"}, {"ValueName": "no id"}]},
+                {"ParameterId": 46, "ParameterName": "Size / Dimension", "FilterValues": [{"ValueId": "1", "ValueName": "x"}]},
+            ],
+        }
+    }
+    assert trim.trim_parametric_filters(response, ["resistance", "Package / Case"]) == [
+        {"parameter_id": 2085, "name": "Resistance", "values": [{"id": "10 kOhms", "name": "10 kOhms"}]},
+        {"parameter_id": 16, "name": "Package / Case", "values": [{"id": "39329", "name": "0805 (2012 Metric)"}]},
+    ]
+    assert trim.trim_parametric_filters({}, ["Resistance"]) == []

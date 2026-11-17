@@ -28,7 +28,7 @@ overrides it.
 | DigiKey part number | `productdetails` | that exact packaging, verified |
 | MPN and manufacturer | keyword search, exact MPN filter, fuzzy manufacturer match | `resolved`; `ambiguous` if the manufacturer does not match the exact-MPN hits |
 | MPN only | keyword search, exact MPN filter | `resolved`; `ambiguous` if several manufacturers list it |
-| nothing (generic) | keyword search from value, package, tolerance, category noun and preference keywords | always `needs_decision` with up to 5 ranked candidates |
+| nothing (generic) | filtered, verified search (below) | `needs_decision`, up to 5 candidates |
 
 Manufacturer matching normalises case, punctuation and corporate suffixes and
 applies an alias table (Texas Instruments = TI, STMicroelectronics = ST, NXP =
@@ -37,11 +37,39 @@ An MPN with no exact hit lists near matches as `ambiguous`; with no hits at all
 it is `unavailable`. A DigiKey part number or MPN that DigiKey does not know is
 `unavailable`; other API failures are `error`.
 
+### Generic lines
+
+`spec.py` turns a line into a DigiKey leaf category and a list of wants on
+product parameters. Values are parsed to SI with the ingest parser and compared
+within 0.01 % (680 and 681 ohm are different parts).
+
+* resistor: chip resistor, or through-hole when the footprint says so;
+  resistance, tolerance when the BOM gives one (not for 0 ohm), package code.
+* capacitor: ceramic; aluminum electrolytic for radial or electrolytic text;
+  tantalum or polymer only when the BOM says so. Capacitance, voltage rating
+  at least the BOM voltage, tolerance, dielectric, package code. Radial: lead
+  spacing, diameter, through hole.
+* LED: LED indication, discrete; one visible colour, package code.
+* ATO blade fuse: current, DC or AC voltage at least the BOM voltage, ATO
+  package.
+* PTC fuse: hold current, maximum voltage at least the BOM voltage.
+* pin header: male pin header; positions, rows, pitch, mounting, vertical.
+
+Other part types (diodes, ICs, ...) use a keyword search limited to the hinted
+category; their candidates say the parameters are not verified.
+
+The discovery call (`keyword_search` with only the category, cached) lists the
+values DigiKey offers per parameter; the wants pick the value ids and the
+filtered search returns only those. Each result is then checked again against
+its own parameters, so a filter DigiKey ignores cannot put a 1.47 k resistor, a
+tantalum, an infrared emitter or a PTC fuse on the list. When no listed value
+matches, the line gets no candidates and the reason names the parameter.
+
 Candidates carry DigiKey part number, MPN, manufacturer, stock, unit price at
-the needed quantity and a `why` string. Ranking adds points for stock covering
-the quantity, active status, package, tolerance and keyword matches in the
-description and parameters, preferred manufacturers and a low total cost.
-Out-of-stock parts and marketplace sellers rank last or are dropped.
+the needed quantity and a `why` string that starts with the verified
+parameters. Ranking adds points for stock covering the quantity, active
+status, preferred manufacturers and a low total cost. Out-of-stock parts rank
+last; marketplace sellers are excluded in the search and dropped.
 
 ## Statuses
 
@@ -175,4 +203,7 @@ together with the blocking lines.
 
 ## Tests
 
-`tests/resolve` runs offline against a stub client in `resolve_fakes.py`.
+`tests/resolve` runs offline against a stub client in `resolve_fakes.py`. The
+stub answers parameter discovery and filtered searches like DigiKey from the
+captured cases in `tests/resolve/fixtures` (real facets and products for the
+generic lines of a board BOM).

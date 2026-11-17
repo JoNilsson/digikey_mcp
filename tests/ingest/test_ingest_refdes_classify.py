@@ -106,3 +106,20 @@ def test_part_number_stops_the_prefix_from_setting_a_spare_category():
     assert infer_category(["D5"], None, "Diode_SMD:D_SOD-123", None, has_part_number=True) == "diode"
     assert infer_category(["R1"], "10k", None, None, has_part_number=True) == "resistor"
     assert infer_category(["U1"], None, None, None, has_part_number=True) == "ic"
+
+
+@pytest.mark.parametrize(
+    "value, footprint, description",
+    [
+        ("LED green", "LED_SMD:LED_0805_2012Metric", "LED 0805 green"),
+        ("LED red", None, None),
+        ("red", None, "red LED 0603"),
+        ("red", "LED_THT:LED_D5.0mm", None),
+    ],
+)
+def test_led_numbered_like_a_diode_is_an_led(value, footprint, description):
+    assert infer_category(["D3"], value, footprint, description) == "led"
+
+
+def test_a_plain_diode_stays_a_diode():
+    assert infer_category(["D3"], "1N4148", "Diode_SMD:D_SOD-123", "small signal diode") == "diode"

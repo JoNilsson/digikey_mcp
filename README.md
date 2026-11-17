@@ -39,8 +39,14 @@ For a step-by-step setup without Nix see [GETTING_STARTED.md](GETTING_STARTED.md
    minimum order quantity and reel multiples.
 3. Generic lines (no MPN and no DigiKey number, for example `10k 0603 1%`) are
    never picked automatically. They always come back as `needs_decision` with
-   up to five ranked candidates. Ambiguous, unavailable and failed lines are
-   reported as blocking.
+   up to five ranked candidates. For resistors, capacitors, LEDs, ATO blade
+   and PTC fuses and pin headers the search uses DigiKey's parameter filters
+   and every candidate is checked against its own parameters (resistance,
+   capacitance, voltage rating, tolerance, package, current, colour, pitch and
+   positions); a candidate's `why` lists the verified values. A line with no
+   verified candidate returns none and the reason names the parameter that
+   could not be matched. Ambiguous, unavailable and failed lines are reported
+   as blocking.
 4. Decisions: `apply_decisions` maps a line id to a DigiKey part number
    (a candidate, a substitute or any part) or `skip`. The chosen part is
    verified like any other line. Decisions persist in the session and survive

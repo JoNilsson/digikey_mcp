@@ -24,6 +24,9 @@ BOM = (
 )
 
 
+CAP_PARAMS = {"Capacitance": "0.1 µF", "Package / Case": "0603 (1608 Metric)"}
+
+
 def lm358(**kw):
     return product("LM358DR", "Texas Instruments", [variation("296-1014-1-ND", "Cut Tape (CT)", breaks=((1, 0.5), (100, 0.3)))], **kw)
 
@@ -32,10 +35,12 @@ def cap_candidates():
     return [
         product("CL10B104KB8NNNC", "Samsung Electro-Mechanics",
                 [variation("1276-1000-1-ND", "Cut Tape (CT)", breaks=((1, 0.1), (100, 0.02)))],
-                desc="CAP CER 0.1UF 50V X7R 0603", params={"Package / Case": "0603"}, category="Capacitors"),
+                desc="CAP CER 0.1UF 50V X7R 0603", params=CAP_PARAMS, category="Capacitors",
+                children=("Ceramic Capacitors",), category_id=60),
         product("GRM188R71H104KA93D", "Murata Electronics",
                 [variation("490-1532-1-ND", "Cut Tape (CT)", breaks=((1, 0.1), (100, 0.03)))],
-                desc="CAP CER 0.1UF 50V X7R 0603", params={"Package / Case": "0603"}, category="Capacitors"),
+                desc="CAP CER 0.1UF 50V X7R 0603", params=CAP_PARAMS, category="Capacitors",
+                children=("Ceramic Capacitors",), category_id=60),
     ]
 
 
@@ -43,8 +48,7 @@ def cap_candidates():
 def loaded(fake):
     caps = cap_candidates()
     fake.add(resistor_10k(), lm358(), *caps)
-    fake.searches["100nF 0603 capacitor"] = caps
-    fake.searches["1kohm 0603 resistor"] = []
+    fake.catalog[60] = caps
     return fake
 
 

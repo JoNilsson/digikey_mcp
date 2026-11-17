@@ -135,11 +135,15 @@ class LineResolver:
                 "supply them or an MPN or DigiKey part number"
             )
             return rl
-        rl.candidates = generic.candidates(self.gw, self.prefs, rl)
+        found = generic.find(self.gw, self.prefs, rl)
+        rl.candidates = found.candidates
         if rl.candidates:
             rl.reason = f"generic line ({what}): pick one of {len(rl.candidates)} candidate(s) or skip"
         else:
-            rl.reason = f"generic line ({what}): no candidates found, supply an MPN or DigiKey part number"
+            rl.reason = f"generic line ({what}): no candidates"
+            if found.reason:
+                rl.reason += f": {found.reason}"
+            rl.reason += "; supply an MPN or DigiKey part number"
         return rl
 
     @staticmethod

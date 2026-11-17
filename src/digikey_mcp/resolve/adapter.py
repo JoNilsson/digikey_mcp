@@ -33,6 +33,19 @@ PARAMETER_KEEP = (
     "Power (Watts)",
     "Temperature Coefficient",
     "Mounting Type",
+    "Color",
+    "Fuse Type",
+    "Current Rating (Amps)",
+    "Voltage Rating - DC",
+    "Voltage Rating - AC",
+    "Current - Hold (Ih) (Max)",
+    "Voltage - Max",
+    "Number of Positions",
+    "Number of Rows",
+    "Pitch - Mating",
+    "Connector Type",
+    "Lead Spacing",
+    "Size / Dimension",
 )
 
 KIND_CUT_TAPE = "cut_tape"
@@ -88,6 +101,15 @@ class ProductInfo:
 
 
 @dataclass
+class Facet:
+    """A parameter DigiKey can filter on, with the values it offers: (value id, value name)."""
+
+    parameter_id: int
+    name: str
+    values: list[tuple[str, str]] = field(default_factory=list)
+
+
+@dataclass
 class SubstituteInfo:
     dk_pn: str
     mpn: str = ""
@@ -118,6 +140,7 @@ class QuoteOption:
 ENDPOINT_CLASS = {
     "product_details": "price",
     "keyword_search": "price",
+    "parametric_facets": "price",
     "pricing_by_quantity": "price",
     "package_type_by_quantity": "price",
     "substitutions": "price",
@@ -135,8 +158,16 @@ def fetch(client: Any, endpoint: str, args: Mapping[str, Any]) -> dict:
             limit=args.get("limit", 10),
             search_options=args.get("search_options") or None,
             minimum_quantity_available=args.get("min_quantity"),
+            marketplace_filter=args.get("marketplace_filter"),
+            parameter_category_id=args.get("category_id"),
+            parameter_filters={int(k): v for k, v in (args.get("filters") or {}).items()} or None,
         )
         return trim.trim_keyword_response(response, PARAMETER_KEEP)
+    if endpoint == "parametric_facets":
+        response = client.keyword_search(
+            args["keywords"], limit=1, search_options=["InStock"], parameter_category_id=args["category_id"]
+        )
+        return {"facets": trim.trim_parametric_filters(response, args["names"])}
     if endpoint == "substitutions":
         return trim.trim_substitutions(client.substitutions(args["pn"]))
     if endpoint == "alternate_packaging":
@@ -280,6 +311,15 @@ def parse_keyword(trimmed: Mapping[str, Any]) -> list[ProductInfo]:
             if (info.mpn or info.packagings) and key not in seen:
                 seen.add(key)
                 out.append(info)
+    return out
+
+
+def parse_facets(trimmed: Mapping[str, Any]) -> list[Facet]:
+    out = []
+    for f in trimmed.get("facets") or []:
+        pid = _int(f.get("parameter_id"), -1)
+        if pid >= 0 and f.get("name"):
+            out.append(Facet(pid, str(f["name"]), [(str(v["id"]), str(v["name"])) for v in f.get("values") or []]))
     return out
 
 
